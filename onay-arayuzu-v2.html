@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Belge Onay Sistemi</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0f0e0c;
+  --ink-soft: #6b6760;
+  --ink-muted: #a8a49f;
+  --paper: #faf8f5;
+  --surface: #ffffff;
+  --rule: #e8e4de;
+  --rule-dark: #d4cfc8;
+  --moss: #2a5c3f;
+  --moss-light: #eaf2ec;
+  --moss-mid: #c8dece;
+  --amber: #b85c1a;
+  --amber-light: #fdf0e8;
+  --rose: #8b2a2a;
+  --rose-light: #f9eaea;
+  --sky: #1a4a7a;
+  --sky-light: #e8f0f8;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.14);
+  --r: 14px;
+  --r-sm: 8px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Instrument Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  padding: 40px 20px 80px;
+}
+
+/* ─── Layout ─────────────────────────────── */
+.wrap { max-width: 1000px; margin: 0 auto; }
+
+/* ─── Header ─────────────────────────────── */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 48px;
+  padding-bottom: 24px;
+  border-bottom: 1.5px solid var(--rule);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.logo-mark {
+  width: 44px; height: 44px;
+  background: var(--ink);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--paper);
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+.logo-text h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.logo-text p {
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  margin-top: 2px;
+}
+.user-pill {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 40px;
+  padding: 6px 14px 6px 6px;
+  box-shadow: var(--shadow-sm);
+}
+.avatar {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 0.7rem; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif;
+}
+.user-pill span { font-size: 0.82rem; font-weight: 500; }
+
+/* ─── Stats Row ──────────────────────────── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.stat-card:hover { box-shadow: var(--shadow); }
+.stat-accent {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  border-radius: 3px 0 0 3px;
+}
+.stat-card.total .stat-accent { background: var(--ink); }
+.stat-card.ok .stat-accent { background: var(--moss); }
+.stat-card.wait .stat-accent { background: var(--amber); }
+.stat-card.no .stat-accent { background: var(--rose); }
+.stat-n {
+  font-family: 'Syne', sans-serif;
+  font-size: 2rem; font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.stat-card.ok .stat-n { color: var(--moss); }
+.stat-card.wait .stat-n { color: var(--amber); }
+.stat-card.no .stat-n { color: var(--rose); }
+.stat-lbl { font-size: 0.75rem; color: var(--ink-soft); margin-top: 4px; }
+
+/* ─── Two Column ─────────────────────────── */
+.cols { display: grid; grid-template-columns: 1fr 420px; gap: 20px; align-items: start; }
+
+/* ─── Panel ──────────────────────────────── */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.panel-head {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.panel-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.pill-count {
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-family: 'Syne', sans-serif;
+}
+
+/* ─── Doc List ───────────────────────────── */
+.doc-list { padding: 12px; }
+.doc-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 12px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: background 0.15s;
+  position: relative;
+}
+.doc-item:hover { background: var(--paper); }
+.doc-item.selected { background: var(--moss-light); }
+.doc-thumb {
+  width: 40px; height: 48px;
+  background: var(--rule);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.6rem; font-weight: 800;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+.doc-thumb::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  border-left: 10px solid var(--paper);
+  border-bottom: 10px solid transparent;
+  border-top: 0;
+  border-right: 0;
+}
+.doc-thumb.pdf { background: #ffe8e8; color: #b91c1c; }
+.doc-thumb.docx { background: #e8f0ff; color: #1a40b8; }
+.doc-thumb.xlsx { background: #e8f9ee; color: #166534; }
+.doc-thumb.pptx { background: #fff3e8; color: #b84c1a; }
+.doc-info { flex: 1; min-width: 0; }
+.doc-name {
+  font-size: 0.85rem; font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.doc-sub { font-size: 0.72rem; color: var(--ink-soft); margin-top: 2px; }
+.doc-badge {
+  flex-shrink: 0;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  font-family: 'Syne', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.doc-badge.approved { background: var(--moss-light); color: var(--moss); }
+.doc-badge.pending { background: var(--amber-light); color: var(--amber); }
+.doc-badge.rejected { background: var(--rose-light); color: var(--rose); }
+.doc-badge.partial { background: var(--sky-light); color: var(--sky); }
+
+.empty-docs {
+  text-align: center; padding: 40px 20px;
+  color: var(--ink-muted); font-size: 0.85rem;
+}
+
+/* ─── Right Panel ────────────────────────── */
+.right-col { display: flex; flex-direction: column; gap: 16px; }
+
+/* ─── Upload Zone ────────────────────────── */
+.upload-zone {
+  border: 2px dashed var(--rule-dark);
+  border-radius: var(--r);
+  padding: 32px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--surface);
+}
+.upload-zone:hover, .upload-zone.over {
+  border-color: var(--moss);
+  background: var(--moss-light);
+}
+.upload-icon-wrap {
+  width: 48px; height: 48px;
+  margin: 0 auto 12px;
+  background: var(--ink);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+}
+.upload-zone h3 { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; }
+.upload-zone p { font-size: 0.75rem; color: var(--ink-soft); margin-top: 4px; }
+.upload-zone input { display: none; }
+
+/* ─── Selected File Strip ────────────────── */
+.file-strip {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--moss-light);
+  border: 1px solid var(--moss-mid);
+  border-radius: var(--r-sm);
+  padding: 12px 14px;
+}
+.file-icon-box {
+  width: 36px; height: 36px;
+  background: var(--moss);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem; font-weight: 800; color: white;
+  flex-shrink: 0;
+}
+.file-strip-info { flex: 1; min-width: 0; }
+.file-strip-name { font-size: 0.82rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.file-strip-size { font-size: 0.7rem; color: var(--ink-soft); }
+.strip-rm {
+  background: transparent; border: none; cursor: pointer;
+  color: var(--ink-soft); font-size: 1rem;
+  width: 28px; height: 28px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; flex-shrink: 0;
+}
+.strip-rm:hover { background: var(--rose-light); color: var(--rose); }
+
+/* ─── Form Panel ─────────────────────────── */
+.form-panel {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.form-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+
+.field label {
+  display: block;
+  font-size: 0.7rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--ink-soft); margin-bottom: 5px;
+}
+.field input, .field select, .field textarea {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid var(--rule);
+  border-radius: var(--r-sm);
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.85rem;
+  color: var(--ink);
+  background: var(--paper);
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--moss);
+  box-shadow: 0 0 0 3px var(--moss-light);
+  background: white;
+}
+.field textarea { resize: vertical; min-height: 70px; }
+
+/* ─── Approver Builder ───────────────────── */
+.approver-search-wrap { position: relative; }
+.approver-search-wrap input { padding-right: 36px; }
+.search-icon {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  color: var(--ink-muted); font-size: 0.9rem; pointer-events: none;
+}
+.suggestions {
+  position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+  background: var(--surface);
+  border: 1.5px solid var(--rule);
+  border-radius: var(--r-sm);
+  box-shadow: var(--shadow);
+  z-index: 50;
+  max-height: 200px;
+  overflow-y: auto;
+  display: none;
+}
+.suggestions.open { display: block; }
+.suggestion-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.suggestion-item:hover { background: var(--paper); }
+.s-avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem; font-weight: 700;
+  font-family: 'Syne', sans-serif;
+  flex-shrink: 0;
+}
+.s-info { flex: 1; min-width: 0; }
+.s-name { font-size: 0.82rem; font-weight: 600; }
+.s-email { font-size: 0.7rem; color: var(--ink-soft); }
+
+/* ─── Approver Tags ──────────────────────── */
+.approver-tags {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-top: 8px;
+  min-height: 0;
+}
+.approver-tag {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--sky-light);
+  border: 1px solid #b8d0e8;
+  border-radius: 20px;
+  padding: 4px 10px 4px 6px;
+  font-size: 0.75rem;
+  animation: tagIn 0.2s ease;
+}
+@keyframes tagIn { from { opacity:0; transform: scale(0.85); } to { opacity:1; transform: scale(1); } }
+.tag-av {
+  width: 20px; height: 20px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.55rem; font-weight: 700;
+  color: white; flex-shrink: 0;
+}
+.tag-name { font-weight: 600; color: var(--sky); }
+.tag-rm {
+  background: transparent; border: none; cursor: pointer;
+  color: #7a9ab8; font-size: 0.75rem; line-height: 1;
+  padding: 0; margin-left: 2px;
+  transition: color 0.12s;
+}
+.tag-rm:hover { color: var(--rose); }
+
+.approver-hint {
+  font-size: 0.72rem; color: var(--ink-muted); margin-top: 4px;
+}
+
+/* ─── Progress Indicators ────────────────── */
+.parallel-info {
+  background: var(--sky-light);
+  border: 1px solid #c8daf0;
+  border-radius: var(--r-sm);
+  padding: 10px 14px;
+  font-size: 0.78rem;
+  color: var(--sky);
+  display: flex; align-items: center; gap: 8px;
+}
+
+/* ─── Buttons ────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 10px 20px;
+  border-radius: var(--r-sm);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.82rem; font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer; border: none;
+  transition: all 0.18s;
+}
+.btn-primary {
+  background: var(--ink); color: var(--paper);
+  width: 100%;
+}
+.btn-primary:hover { background: #2a2820; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn-ghost {
+  background: transparent; color: var(--ink-soft);
+  border: 1px solid var(--rule);
+  font-family: 'Instrument Sans', sans-serif; font-weight: 500;
+}
+.btn-ghost:hover { background: var(--paper); color: var(--ink); }
+.btn-approve { background: var(--moss); color: white; }
+.btn-approve:hover { background: #1e4430; }
+.btn-reject { background: var(--rose); color: white; }
+.btn-reject:hover { background: #6b2020; }
+
+/* ─── Detail Panel ───────────────────────── */
+.detail-panel {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: none;
+}
+.detail-panel.visible { display: block; }
+.detail-head {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper);
+}
+.detail-filename {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.88rem; font-weight: 700;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.detail-meta { font-size: 0.72rem; color: var(--ink-soft); margin-top: 2px; }
+.detail-body { padding: 16px 20px; }
+
+.approver-progress { display: flex; flex-direction: column; gap: 8px; }
+.ap-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--rule);
+  background: var(--paper);
+}
+.ap-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem; font-weight: 700; font-family: 'Syne', sans-serif;
+  color: white; flex-shrink: 0;
+}
+.ap-info { flex: 1; }
+.ap-name { font-size: 0.82rem; font-weight: 600; }
+.ap-date { font-size: 0.7rem; color: var(--ink-soft); }
+.ap-status {
+  font-size: 0.68rem; font-weight: 700;
+  font-family: 'Syne', sans-serif;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+.ap-status.approved { color: var(--moss); }
+.ap-status.pending { color: var(--amber); }
+.ap-status.rejected { color: var(--rose); }
+
+.progress-bar-wrap { margin: 14px 0 4px; }
+.progress-label {
+  display: flex; justify-content: space-between;
+  font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 6px;
+}
+.progress-track {
+  height: 6px; background: var(--rule);
+  border-radius: 10px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; background: var(--moss);
+  border-radius: 10px;
+  transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.section-label {
+  font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.07em;
+  color: var(--ink-muted); margin-bottom: 8px;
+}
+
+.detail-actions { display: flex; gap: 8px; margin-top: 14px; }
+
+/* ─── Modal ──────────────────────────────── */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(15,14,12,0.5);
+  backdrop-filter: blur(6px);
+  z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s;
+}
+.overlay.on { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 32px;
+  width: 440px; max-width: 95vw;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+}
+.overlay.on .modal { transform: translateY(0) scale(1); }
+.modal-icon { font-size: 2rem; margin-bottom: 12px; }
+.modal h2 { font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 800; margin-bottom: 6px; }
+.modal p { font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 18px; }
+.modal .field { margin-bottom: 0; }
+.modal-acts { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
+
+/* ─── Toast ──────────────────────────────── */
+.toast {
+  position: fixed; bottom: 28px; right: 28px;
+  padding: 12px 18px;
+  border-radius: var(--r-sm);
+  font-size: 0.82rem; font-weight: 600;
+  display: flex; align-items: center; gap: 8px;
+  transform: translateY(60px); opacity: 0;
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  z-index: 200; max-width: 340px;
+  box-shadow: var(--shadow-lg);
+  color: white;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.ok { background: var(--moss); }
+.toast.err { background: var(--rose); }
+.toast.info { background: var(--ink); }
+
+/* ─── Config notice ──────────────────────── */
+.notice {
+  background: #fffbeb; border: 1px solid #f5d57a;
+  border-radius: var(--r-sm); padding: 12px 16px;
+  font-size: 0.78rem; color: #78520a; margin-bottom: 20px;
+  display: flex; gap: 8px; align-items: flex-start;
+}
+
+@media (max-width: 720px) {
+  .cols { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2,1fr); }
+  .right-col { order: -1; }
+}
+</style>
+</head>
+<body>
+<script>
+// ══════════════════════════════════════════════
+//  ⚙️  CONFIG — Kendi değerlerinizi girin
+// ══════════════════════════════════════════════
+const CFG = {
+  FLOW_URL: "https://defaultee7a19d634f6497fafdd901f6d43ea.25.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/ed164128abcd406e9871228d8700bdda/triggers/manual/paths/invoke?api-version=1",
+  
+  SITE_URL: "https://balsugidatr.sharepoint.com/sites/ik",
+  LIBRARY:  "Belgeler",
+  
+  ME_NAME:  "Yusuf Yıldırım",
+  ME_EMAIL: "yorunge@balsugida.com",
+
+  USERS: [
+    { name:"Cemile Dilaver", email:"cemiled@balsugida.com", dept:"Muhasebe", color:"#2d5a8e" },
+    { name:"yorungetest", email:"yorungetest@balsugida.com", dept:"IT", color:"#5a2d8e" },
+    // Şirketteki diğer kişileri buraya ekleyin
+  ]
+};
+</script>
+
+<div class="wrap">
+
+  <div class="notice">
+    ⚙️ <div><strong>Kurulum:</strong> Sayfanın üstündeki <code>CFG</code> bölümüne Power Automate URL'nizi ve kullanıcı listenizi girin. Kullanıcıları Azure AD'den otomatik çekmeye de bağlayabiliriz.</div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="logo">
+      <div class="logo-mark">BOS</div>
+      <div class="logo-text">
+        <h1>Belge Onay Sistemi</h1>
+        <p>Paralel çok-onaylayıcı · SharePoint entegrasyonu</p>
+      </div>
+    </div>
+    <div class="user-pill">
+      <div class="avatar" id="myAvatar"></div>
+      <span id="myName"></span>
+    </div>
+  </header>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card total"><div class="stat-accent"></div><div class="stat-n" id="sTotal">0</div><div class="stat-lbl">Toplam Belge</div></div>
+    <div class="stat-card ok">  <div class="stat-accent"></div><div class="stat-n" id="sOk">0</div>   <div class="stat-lbl">Onaylandı</div></div>
+    <div class="stat-card wait"><div class="stat-accent"></div><div class="stat-n" id="sWait">0</div>  <div class="stat-lbl">Beklemede</div></div>
+    <div class="stat-card no">  <div class="stat-accent"></div><div class="stat-n" id="sNo">0</div>   <div class="stat-lbl">Reddedildi</div></div>
+  </div>
+
+  <!-- Two Column -->
+  <div class="cols">
+
+    <!-- Left: Document List -->
+    <div>
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">Tüm Belgeler</div>
+          <div class="pill-count" id="docCount">0</div>
+        </div>
+        <div class="doc-list" id="docList">
+          <div class="empty-docs">📂 Henüz belge yok.<br>Sağdaki alandan PDF, Word veya diğer Office dosyalarını gönderin.</div>
+        </div>
+      </div>
+
+      <!-- Detail Panel (below list) -->
+      <div class="detail-panel" id="detailPanel" style="margin-top:16px;">
+        <div class="detail-head">
+          <div class="detail-filename" id="dFileName">—</div>
+          <div class="detail-meta" id="dMeta">—</div>
+        </div>
+        <div class="detail-body">
+          <div class="section-label">Onay Durumu</div>
+          <div class="progress-bar-wrap">
+            <div class="progress-label">
+              <span id="dProgressLabel">0 / 0 onay</span>
+              <span id="dProgressPct">0%</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill" id="dProgressFill" style="width:0%"></div></div>
+          </div>
+          <div class="approver-progress" id="dApprovers" style="margin-top:12px;"></div>
+          <div class="detail-actions" id="dActions"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Upload + Form -->
+    <div class="right-col">
+
+      <!-- Upload -->
+      <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileIn').click()">
+        <div class="upload-icon-wrap">📎</div>
+        <h3>Dosya Seç veya Sürükle</h3>
+        <p>PDF · Word · Excel · PowerPoint · Maks 20 MB</p>
+        <input type="file" id="fileIn" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" onchange="pickFile(event)">
+      </div>
+
+      <div id="fileStrip" style="display:none;">
+        <div class="file-strip">
+          <div class="file-icon-box" id="fIconBox"></div>
+          <div class="file-strip-info">
+            <div class="file-strip-name" id="fName"></div>
+            <div class="file-strip-size" id="fSize"></div>
+          </div>
+          <button class="strip-rm" onclick="clearFile()">✕</button>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="form-panel" id="formPanel" style="display:none;">
+        <div class="panel-head">
+          <div class="panel-title">Onay İsteği Oluştur</div>
+        </div>
+        <div class="form-body">
+
+          <div class="field">
+            <label>Belge Başlığı *</label>
+            <input type="text" id="fTitle" placeholder="Örn: Q2 Hizmet Sözleşmesi">
+          </div>
+
+          <div class="field">
+            <label>Belge Türü</label>
+            <select id="fType">
+              <option>Sözleşme</option>
+              <option>Rapor</option>
+              <option>Yönerge</option>
+              <option>Prosedür</option>
+              <option>Form</option>
+              <option>Teklif</option>
+              <option>Diğer</option>
+            </select>
+          </div>
+
+          <!-- Approver Search -->
+          <div class="field">
+            <label>Onaylayıcılar * <span style="font-weight:400;text-transform:none;letter-spacing:0">(birden fazla seçebilirsiniz)</span></label>
+            <div class="approver-search-wrap">
+              <input type="text" id="approverSearch" placeholder="İsim veya e-posta ara..." autocomplete="off" oninput="searchUsers(this.value)" onfocus="searchUsers(this.value)">
+              <span class="search-icon">🔍</span>
+              <div class="suggestions" id="suggestions"></div>
+            </div>
+            <div class="approver-tags" id="approverTags"></div>
+            <div class="approver-hint" id="approverHint"></div>
+          </div>
+
+          <div class="parallel-info">
+            ⚡ <span>Tüm onaylayıcılara <strong>aynı anda</strong> gönderilecek. Herkes onayladığında belge "Onaylandı" olur.</span>
+          </div>
+
+          <div class="field">
+            <label>Not / Açıklama</label>
+            <textarea id="fNote" placeholder="Onaylayıcılara iletmek istediğiniz not..."></textarea>
+          </div>
+
+          <button class="btn btn-primary" id="sendBtn" onclick="sendApproval()">
+            Onaya Gönder →
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Approve Modal -->
+<div class="overlay" id="approveOv">
+  <div class="modal">
+    <div class="modal-icon">✅</div>
+    <h2>Belgeyi Onayla</h2>
+    <p id="approveDesc">Belgeyi onaylamak üzeresiniz.</p>
+    <div class="field">
+      <label>Onay Yorumu (isteğe bağlı)</label>
+      <textarea id="approveComment" placeholder="Notunuzu yazın..."></textarea>
+    </div>
+    <div class="modal-acts">
+      <button class="btn btn-ghost" onclick="closeOv('approveOv')">Vazgeç</button>
+      <button class="btn btn-approve" onclick="doApprove()">Onayla</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reject Modal -->
+<div class="overlay" id="rejectOv">
+  <div class="modal">
+    <div class="modal-icon">❌</div>
+    <h2>Belgeyi Reddet</h2>
+    <p id="rejectDesc">Red nedeninizi belirtin.</p>
+    <div class="field">
+      <label>Red Nedeni *</label>
+      <textarea id="rejectComment" placeholder="Açıklama yazın..."></textarea>
+    </div>
+    <div class="modal-acts">
+      <button class="btn btn-ghost" onclick="closeOv('rejectOv')">Vazgeç</button>
+      <button class="btn btn-reject" onclick="doReject()">Reddet</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── State ────────────────────────────────
+let file = null;
+let selectedApprovers = [];   // [{name, email, color}]
+let docs = [];
+let selectedDocId = null;
+let actionDocId = null;
+
+// ─── Init ─────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('myName').textContent = CFG.ME_NAME;
+  document.getElementById('myAvatar').textContent = initials(CFG.ME_NAME);
+  setupDrop();
+  render();
+});
+
+function initials(name) {
+  return name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+}
+
+function colorFor(name) {
+  const colors = ["#2d5a8e","#5a2d8e","#8e2d5a","#2d8e5a","#8e5a2d","#2d6e8e","#6e8e2d","#8e2d2d"];
+  let h = 0; for (let c of name) h = (h*31 + c.charCodeAt(0)) & 0xffffff;
+  return colors[h % colors.length];
+}
+
+// ─── Render ───────────────────────────────
+function render() {
+  // Stats
+  document.getElementById('sTotal').textContent = docs.length;
+  document.getElementById('sOk').textContent    = docs.filter(d=>d.status==='approved').length;
+  document.getElementById('sWait').textContent  = docs.filter(d=>d.status==='pending'||d.status==='partial').length;
+  document.getElementById('sNo').textContent    = docs.filter(d=>d.status==='rejected').length;
+  document.getElementById('docCount').textContent = docs.length;
+
+  // List
+  const list = document.getElementById('docList');
+  if (!docs.length) {
+    list.innerHTML = '<div class="empty-docs">📂 Henüz belge yok.<br>Sağdaki alandan dosya gönderin.</div>';
+    return;
+  }
+  list.innerHTML = docs.map(d => {
+    const done = d.approvers.filter(a=>a.status==='approved').length;
+    const total = d.approvers.length;
+    return `
+    <div class="doc-item ${selectedDocId===d.id?'selected':''}" onclick="selectDoc(${d.id})">
+      <div class="doc-thumb ${d.ext}">${d.ext.toUpperCase()}</div>
+      <div class="doc-info">
+        <div class="doc-name">${d.name}</div>
+        <div class="doc-sub">${d.type} · ${done}/${total} onay · ${d.date}</div>
+      </div>
+      <span class="doc-badge ${d.status}">${badgeLabel(d.status)}</span>
+    </div>`;
+  }).join('');
+
+  // Detail
+  if (selectedDocId) renderDetail();
+}
+
+function badgeLabel(s) {
+  return {approved:'Onaylandı', pending:'Beklemede', partial:'Kısmi', rejected:'Reddedildi'}[s]||s;
+}
+
+function selectDoc(id) {
+  selectedDocId = id;
+  render();
+  renderDetail();
+  document.getElementById('detailPanel').classList.add('visible');
+}
+
+function renderDetail() {
+  const d = docs.find(x=>x.id===selectedDocId);
+  if (!d) return;
+  const done = d.approvers.filter(a=>a.status==='approved').length;
+  const total = d.approvers.length;
+  const pct = total ? Math.round(done/total*100) : 0;
+
+  document.getElementById('dFileName').textContent = d.name;
+  document.getElementById('dMeta').textContent = `${d.type} · Gönderen: ${d.requester} · ${d.date}`;
+  document.getElementById('dProgressLabel').textContent = `${done} / ${total} onay tamamlandı`;
+  document.getElementById('dProgressPct').textContent = pct + '%';
+  document.getElementById('dProgressFill').style.width = pct + '%';
+
+  document.getElementById('dApprovers').innerHTML = d.approvers.map(a => `
+    <div class="ap-row">
+      <div class="ap-avatar" style="background:${a.color}">${initials(a.name)}</div>
+      <div class="ap-info">
+        <div class="ap-name">${a.name}</div>
+        <div class="ap-date">${a.date ? a.date : 'Henüz yanıt vermedi'}</div>
+      </div>
+      <div class="ap-status ${a.status}">${{approved:'✓ Onayladı', pending:'⏳ Bekliyor', rejected:'✕ Reddetti'}[a.status]}</div>
+    </div>
+  `).join('');
+
+  // Actions — sadece "pending" olan belgede göster (benim onayım varsa)
+  const myApproval = d.approvers.find(a => a.email === CFG.ME_EMAIL && a.status === 'pending');
+  const acts = document.getElementById('dActions');
+  if (myApproval) {
+    acts.innerHTML = `
+      <button class="btn btn-approve" style="flex:1" onclick="openApprove(${d.id})">✓ Onayla</button>
+      <button class="btn btn-reject" style="flex:1" onclick="openReject(${d.id})">✕ Reddet</button>
+    `;
+  } else {
+    acts.innerHTML = '';
+  }
+}
+
+// ─── File Handling ────────────────────────
+function pickFile(e) {
+  const f = e.target.files[0];
+  if (!f) return;
+  if (f.size > 20*1024*1024) { toast('Dosya 20 MB sınırını aşıyor.','err'); return; }
+  file = f;
+  const ext = f.name.split('.').pop().toLowerCase();
+  document.getElementById('fIconBox').textContent = ext.toUpperCase();
+  document.getElementById('fName').textContent = f.name;
+  document.getElementById('fSize').textContent = (f.size/1024).toFixed(0) + ' KB';
+  document.getElementById('fileStrip').style.display = 'block';
+  document.getElementById('formPanel').style.display = 'block';
+  document.getElementById('dropZone').style.display = 'none';
+  document.getElementById('fTitle').value = f.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' ');
+  // Ext ile tür tahmin et
+  const typeMap = {pdf:'Diğer', doc:'Diğer', docx:'Diğer', xls:'Rapor', xlsx:'Rapor', ppt:'Diğer', pptx:'Diğer'};
+  document.getElementById('fType').value = typeMap[ext] || 'Diğer';
+}
+
+function clearFile() {
+  file = null; selectedApprovers = [];
+  document.getElementById('fileIn').value = '';
+  document.getElementById('fileStrip').style.display = 'none';
+  document.getElementById('formPanel').style.display = 'none';
+  document.getElementById('dropZone').style.display = 'block';
+  document.getElementById('approverTags').innerHTML = '';
+  document.getElementById('approverSearch').value = '';
+  document.getElementById('approverHint').textContent = '';
+  document.getElementById('suggestions').classList.remove('open');
+}
+
+function setupDrop() {
+  const z = document.getElementById('dropZone');
+  z.addEventListener('dragover', e => { e.preventDefault(); z.classList.add('over'); });
+  z.addEventListener('dragleave', () => z.classList.remove('over'));
+  z.addEventListener('drop', e => {
+    e.preventDefault(); z.classList.remove('over');
+    if (e.dataTransfer.files[0]) {
+      document.getElementById('fileIn').files = e.dataTransfer.files;
+      pickFile({ target: { files: e.dataTransfer.files } });
+    }
+  });
+}
+
+// ─── User Search ──────────────────────────
+function searchUsers(q) {
+  const box = document.getElementById('suggestions');
+  const term = q.trim().toLowerCase();
+  const already = selectedApprovers.map(a=>a.email);
+  let results = CFG.USERS.filter(u =>
+    u.email !== CFG.ME_EMAIL &&
+    !already.includes(u.email) &&
+    (!term || u.name.toLowerCase().includes(term) || u.email.toLowerCase().includes(term) || u.dept.toLowerCase().includes(term))
+  );
+  if (!results.length) { box.classList.remove('open'); return; }
+  box.innerHTML = results.map(u => `
+    <div class="suggestion-item" onclick="addApprover('${u.email}')">
+      <div class="s-avatar" style="background:${u.color};color:white">${initials(u.name)}</div>
+      <div class="s-info">
+        <div class="s-name">${u.name} <span style="font-weight:400;color:var(--ink-muted)">· ${u.dept}</span></div>
+        <div class="s-email">${u.email}</div>
+      </div>
+    </div>
+  `).join('');
+  box.classList.add('open');
+}
+
+function addApprover(email) {
+  const u = CFG.USERS.find(x=>x.email===email);
+  if (!u || selectedApprovers.find(a=>a.email===email)) return;
+  selectedApprovers.push(u);
+  document.getElementById('approverSearch').value = '';
+  document.getElementById('suggestions').classList.remove('open');
+  renderTags();
+}
+
+function removeApprover(email) {
+  selectedApprovers = selectedApprovers.filter(a=>a.email!==email);
+  renderTags();
+}
+
+function renderTags() {
+  const wrap = document.getElementById('approverTags');
+  wrap.innerHTML = selectedApprovers.map(a => `
+    <div class="approver-tag">
+      <div class="tag-av" style="background:${a.color}">${initials(a.name)}</div>
+      <span class="tag-name">${a.name}</span>
+      <button class="tag-rm" onclick="removeApprover('${a.email}')">✕</button>
+    </div>
+  `).join('');
+  const n = selectedApprovers.length;
+  document.getElementById('approverHint').textContent =
+    n === 0 ? '' :
+    n === 1 ? '1 onaylayıcı seçildi — herkese aynı anda gönderilecek.' :
+    `${n} onaylayıcı seçildi — hepsine aynı anda gönderilecek.`;
+}
+
+// Dışarı tıklayınca kapat
+document.addEventListener('click', e => {
+  if (!e.target.closest('.approver-search-wrap'))
+    document.getElementById('suggestions').classList.remove('open');
+});
+
+// ─── Send ─────────────────────────────────
+async function sendApproval() {
+  const title = document.getElementById('fTitle').value.trim();
+  const type  = document.getElementById('fType').value;
+  const note  = document.getElementById('fNote').value.trim();
+
+  if (!file) { toast('Dosya seçilmedi.','err'); return; }
+  if (!title) { toast('Başlık zorunludur.','err'); return; }
+  if (!selectedApprovers.length) { toast('En az bir onaylayıcı seçin.','err'); return; }
+
+  const btn = document.getElementById('sendBtn');
+  btn.disabled = true; btn.textContent = 'Gönderiliyor...';
+
+  try {
+    const b64 = await toB64(file);
+    const payload = {
+      fileName:   file.name,
+      fileContent: b64,
+      title, type, note,
+      requesterName:  CFG.ME_NAME,
+      requesterEmail: CFG.ME_EMAIL,
+      approvers: selectedApprovers.map(a=>({ name:a.name, email:a.email })),
+      submittedAt: new Date().toISOString(),
+      siteUrl: CFG.SITE_URL,
+      library: CFG.LIBRARY,
+    };
+
+    if (CFG.FLOW_URL !== "BURAYA_POWER_AUTOMATE_HTTP_TRIGGER_URL") {
+      await fetch(CFG.FLOW_URL, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(payload)
+      });
+    }
+
+    // Demo: listeye ekle
+    docs.unshift({
+      id: Date.now(),
+      name: file.name,
+      ext: file.name.split('.').pop().toLowerCase(),
+      type, status: 'pending',
+      requester: CFG.ME_NAME,
+      date: new Date().toLocaleString('tr-TR'),
+      note,
+      approvers: selectedApprovers.map(a=>({ ...a, status:'pending', date:null }))
+    });
+
+    render();
+    clearFile();
+    toast(`✓ ${selectedApprovers.length} kişiye onay isteği gönderildi.`, 'ok');
+  } catch(err) {
+    toast('Hata: ' + err.message, 'err');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Onaya Gönder →';
+  }
+}
+
+function toB64(f) {
+  return new Promise((res,rej)=>{
+    const r = new FileReader();
+    r.onload = ()=>res(r.result.split(',')[1]);
+    r.onerror = ()=>rej(new Error('Dosya okunamadı'));
+    r.readAsDataURL(f);
+  });
+}
+
+// ─── Approve / Reject ─────────────────────
+function openApprove(id) {
+  actionDocId = id;
+  const d = docs.find(x=>x.id===id);
+  document.getElementById('approveDesc').textContent = `"${d.name}" belgesini onaylıyorsunuz.`;
+  document.getElementById('approveComment').value = '';
+  openOv('approveOv');
+}
+function openReject(id) {
+  actionDocId = id;
+  const d = docs.find(x=>x.id===id);
+  document.getElementById('rejectDesc').textContent = `"${d.name}" belgesini reddediyorsunuz.`;
+  document.getElementById('rejectComment').value = '';
+  openOv('rejectOv');
+}
+
+function doApprove() {
+  const d = docs.find(x=>x.id===actionDocId);
+  const a = d.approvers.find(a=>a.email===CFG.ME_EMAIL);
+  if (a) { a.status='approved'; a.date=new Date().toLocaleString('tr-TR'); }
+  updateDocStatus(d);
+  closeOv('approveOv');
+  render(); renderDetail();
+  toast('Belge onaylandı ✓','ok');
+}
+
+function doReject() {
+  const comment = document.getElementById('rejectComment').value.trim();
+  if (!comment) { toast('Red nedeni zorunludur.','err'); return; }
+  const d = docs.find(x=>x.id===actionDocId);
+  const a = d.approvers.find(a=>a.email===CFG.ME_EMAIL);
+  if (a) { a.status='rejected'; a.date=new Date().toLocaleString('tr-TR'); }
+  d.status = 'rejected';
+  closeOv('rejectOv');
+  render(); renderDetail();
+  toast('Belge reddedildi.','err');
+}
+
+function updateDocStatus(d) {
+  const all = d.approvers;
+  if (all.some(a=>a.status==='rejected'))       d.status = 'rejected';
+  else if (all.every(a=>a.status==='approved')) d.status = 'approved';
+  else if (all.some(a=>a.status==='approved'))  d.status = 'partial';
+  else                                           d.status = 'pending';
+}
+
+// ─── Overlays ─────────────────────────────
+function openOv(id) { document.getElementById(id).classList.add('on'); }
+function closeOv(id) { document.getElementById(id).classList.remove('on'); }
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{ if(e.target===o) o.classList.remove('on'); }));
+
+// ─── Toast ────────────────────────────────
+function toast(msg, type='info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = `toast show ${type}`;
+  clearTimeout(t._t);
+  t._t = setTimeout(()=>t.classList.remove('show'), 3500);
+}
+</script>
+</body>
+</html>
