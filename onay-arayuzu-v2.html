@@ -3,730 +3,707 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Belge Onay Sistemi</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<title>Belge Okuma Sistemi</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ink: #0f0e0c;
+  --bg: #f7f6f3;
+  --surface: #ffffff;
+  --surface2: #f0eff9;
+  --border: #e8e6e1;
+  --border2: #d8d5ce;
+  --ink: #1c1a17;
   --ink-soft: #6b6760;
   --ink-muted: #a8a49f;
-  --paper: #faf8f5;
-  --surface: #ffffff;
-  --rule: #e8e4de;
-  --rule-dark: #d4cfc8;
-  --moss: #2a5c3f;
-  --moss-light: #eaf2ec;
-  --moss-mid: #c8dece;
-  --amber: #b85c1a;
-  --amber-light: #fdf0e8;
-  --rose: #8b2a2a;
-  --rose-light: #f9eaea;
-  --sky: #1a4a7a;
-  --sky-light: #e8f0f8;
-  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
-  --shadow: 0 4px 20px rgba(0,0,0,0.08);
-  --shadow-lg: 0 12px 48px rgba(0,0,0,0.14);
+  --violet: #4f3dff;
+  --violet-light: #eeecff;
+  --violet-border: rgba(79,61,255,0.2);
+  --green: #16a34a;
+  --green-light: #f0fdf4;
+  --green-border: rgba(22,163,74,0.2);
+  --amber: #d97706;
+  --amber-light: #fffbeb;
+  --amber-border: rgba(217,119,6,0.2);
+  --red: #dc2626;
+  --red-light: #fef2f2;
+  --red-border: rgba(220,38,38,0.2);
   --r: 14px;
   --r-sm: 8px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: 'Instrument Sans', sans-serif;
-  background: var(--paper);
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
   color: var(--ink);
   min-height: 100vh;
-  padding: 40px 20px 80px;
+  font-size: 15px;
 }
 
-/* ─── Layout ─────────────────────────────── */
-.wrap { max-width: 1000px; margin: 0 auto; }
-
-/* ─── Header ─────────────────────────────── */
-.site-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 48px;
-  padding-bottom: 24px;
-  border-bottom: 1.5px solid var(--rule);
-  gap: 16px;
-  flex-wrap: wrap;
-}
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-.logo-mark {
-  width: 44px; height: 44px;
-  background: var(--ink);
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--paper);
-  font-family: 'Syne', sans-serif;
-  font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-}
-.logo-text h1 {
-  font-family: 'Syne', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1;
-}
-.logo-text p {
-  font-size: 0.75rem;
-  color: var(--ink-soft);
-  margin-top: 2px;
-}
-.user-pill {
-  display: flex; align-items: center; gap: 10px;
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 40px;
-  padding: 6px 14px 6px 6px;
-  box-shadow: var(--shadow-sm);
-}
-.avatar {
-  width: 30px; height: 30px; border-radius: 50%;
-  background: var(--ink);
-  color: var(--paper);
-  font-size: 0.7rem; font-weight: 600;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Syne', sans-serif;
-}
-.user-pill span { font-size: 0.82rem; font-weight: 500; }
-
-/* ─── Stats Row ──────────────────────────── */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+/* ── Role Bar ── */
+.role-bar {
+  background: var(--violet);
+  padding: 8px 24px;
+  display: flex; align-items: center; justify-content: space-between;
   gap: 12px;
-  margin-bottom: 32px;
 }
-.stat-card {
+.role-bar-text { font-size: 0.75rem; color: rgba(255,255,255,0.8); }
+.role-tabs { display: flex; gap: 4px; }
+.role-btn {
+  padding: 4px 14px; border-radius: 20px;
+  font-size: 0.72rem; font-weight: 600;
+  cursor: pointer; border: none;
+  background: rgba(255,255,255,0.15);
+  color: white; transition: all 0.2s;
+  font-family: 'Outfit', sans-serif;
+}
+.role-btn.on { background: white; color: var(--violet); }
+
+/* ── Top Bar ── */
+.topbar {
   background: var(--surface);
-  border: 1px solid var(--rule);
+  border-bottom: 1px solid var(--border);
+  padding: 0 28px;
+  display: flex; align-items: center;
+  height: 60px; gap: 16px;
+}
+.brand { display: flex; align-items: center; gap: 12px; flex: 1; }
+.brand-icon {
+  width: 36px; height: 36px;
+  background: var(--violet);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+}
+.brand-name { font-size: 0.95rem; font-weight: 700; letter-spacing: -0.02em; }
+.brand-sub { font-size: 0.7rem; color: var(--ink-muted); }
+.topbar-user {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 40px;
+  padding: 5px 12px 5px 5px;
+}
+.t-av {
+  width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.62rem; font-weight: 700; color: white;
+}
+.t-name { font-size: 0.78rem; font-weight: 500; }
+.t-badge {
+  font-size: 0.62rem; font-weight: 600;
+  padding: 2px 7px; border-radius: 20px;
+  background: var(--violet-light); color: var(--violet);
+}
+
+/* ── Layout ── */
+.shell { display: flex; min-height: calc(100vh - 96px); }
+
+/* ── Sidebar ── */
+.sidebar {
+  width: 200px; flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 16px 10px;
+}
+.nav-section { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-muted); padding: 0 8px; margin: 14px 0 5px; }
+.nav-btn {
+  display: flex; align-items: center; gap: 9px;
+  width: 100%; padding: 8px 10px;
+  border-radius: var(--r-sm); border: none;
+  background: transparent; cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.82rem; font-weight: 400;
+  color: var(--ink-soft); text-align: left;
+  transition: all 0.15s; margin-bottom: 1px;
+}
+.nav-btn:hover { background: var(--bg); color: var(--ink); }
+.nav-btn.on { background: var(--violet-light); color: var(--violet); font-weight: 600; }
+.nav-btn .ico { font-size: 0.85rem; width: 16px; text-align: center; }
+.nav-count {
+  margin-left: auto;
+  background: var(--violet); color: white;
+  font-size: 0.6rem; font-weight: 700;
+  min-width: 17px; height: 17px; border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0 4px;
+}
+
+/* ── Main ── */
+.main { flex: 1; padding: 24px 28px; overflow-y: auto; }
+
+/* ── Page Header ── */
+.pg-head { margin-bottom: 20px; }
+.pg-title { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.03em; }
+.pg-sub { font-size: 0.8rem; color: var(--ink-muted); margin-top: 2px; }
+
+/* ── Stats ── */
+.stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 20px; }
+.stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: var(--r);
-  padding: 18px 20px;
-  position: relative;
-  overflow: hidden;
+  padding: 16px 18px;
   transition: box-shadow 0.2s;
 }
-.stat-card:hover { box-shadow: var(--shadow); }
-.stat-accent {
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 3px;
-  border-radius: 3px 0 0 3px;
-}
-.stat-card.total .stat-accent { background: var(--ink); }
-.stat-card.ok .stat-accent { background: var(--moss); }
-.stat-card.wait .stat-accent { background: var(--amber); }
-.stat-card.no .stat-accent { background: var(--rose); }
-.stat-n {
-  font-family: 'Syne', sans-serif;
-  font-size: 2rem; font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 1;
-}
-.stat-card.ok .stat-n { color: var(--moss); }
-.stat-card.wait .stat-n { color: var(--amber); }
-.stat-card.no .stat-n { color: var(--rose); }
-.stat-lbl { font-size: 0.75rem; color: var(--ink-soft); margin-top: 4px; }
+.stat:hover { box-shadow: var(--shadow); }
+.stat-val { font-size: 2rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+.stat-val.v { color: var(--violet); }
+.stat-val.g { color: var(--green); }
+.stat-val.a { color: var(--amber); }
+.stat-val.r { color: var(--red); }
+.stat-lbl { font-size: 0.72rem; color: var(--ink-muted); margin-top: 4px; font-weight: 500; }
 
-/* ─── Two Column ─────────────────────────── */
-.cols { display: grid; grid-template-columns: 1fr 420px; gap: 20px; align-items: start; }
-
-/* ─── Panel ──────────────────────────────── */
-.panel {
+/* ── Card ── */
+.card {
   background: var(--surface);
-  border: 1px solid var(--rule);
+  border: 1px solid var(--border);
   border-radius: var(--r);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
 }
-.panel-head {
-  padding: 18px 24px;
-  border-bottom: 1px solid var(--rule);
+.card-head {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
   display: flex; align-items: center; justify-content: space-between;
 }
-.panel-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-.pill-count {
-  background: var(--ink);
-  color: var(--paper);
-  font-size: 0.7rem;
-  font-weight: 600;
-  padding: 2px 8px;
-  border-radius: 20px;
-  font-family: 'Syne', sans-serif;
-}
+.card-title { font-size: 0.85rem; font-weight: 700; }
+.card-body { padding: 18px; }
 
-/* ─── Doc List ───────────────────────────── */
-.doc-list { padding: 12px; }
-.doc-item {
-  display: flex; align-items: center; gap: 14px;
-  padding: 14px 12px;
-  border-radius: var(--r-sm);
-  cursor: pointer;
-  transition: background 0.15s;
-  position: relative;
-}
-.doc-item:hover { background: var(--paper); }
-.doc-item.selected { background: var(--moss-light); }
-.doc-thumb {
-  width: 40px; height: 48px;
-  background: var(--rule);
-  border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.6rem; font-weight: 800;
-  letter-spacing: 0.02em;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-}
-.doc-thumb::after {
-  content: '';
-  position: absolute;
-  top: 0; right: 0;
-  border-left: 10px solid var(--paper);
-  border-bottom: 10px solid transparent;
-  border-top: 0;
-  border-right: 0;
-}
-.doc-thumb.pdf { background: #ffe8e8; color: #b91c1c; }
-.doc-thumb.docx { background: #e8f0ff; color: #1a40b8; }
-.doc-thumb.xlsx { background: #e8f9ee; color: #166534; }
-.doc-thumb.pptx { background: #fff3e8; color: #b84c1a; }
-.doc-info { flex: 1; min-width: 0; }
-.doc-name {
-  font-size: 0.85rem; font-weight: 600;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.doc-sub { font-size: 0.72rem; color: var(--ink-soft); margin-top: 2px; }
-.doc-badge {
-  flex-shrink: 0;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-size: 0.68rem;
-  font-weight: 600;
-  font-family: 'Syne', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-.doc-badge.approved { background: var(--moss-light); color: var(--moss); }
-.doc-badge.pending { background: var(--amber-light); color: var(--amber); }
-.doc-badge.rejected { background: var(--rose-light); color: var(--rose); }
-.doc-badge.partial { background: var(--sky-light); color: var(--sky); }
-
-.empty-docs {
-  text-align: center; padding: 40px 20px;
-  color: var(--ink-muted); font-size: 0.85rem;
-}
-
-/* ─── Right Panel ────────────────────────── */
-.right-col { display: flex; flex-direction: column; gap: 16px; }
-
-/* ─── Upload Zone ────────────────────────── */
-.upload-zone {
-  border: 2px dashed var(--rule-dark);
+/* ── Upload ── */
+.dropzone {
+  border: 2px dashed var(--border2);
   border-radius: var(--r);
-  padding: 32px 24px;
+  padding: 36px;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s;
-  background: var(--surface);
+  background: var(--bg);
 }
-.upload-zone:hover, .upload-zone.over {
-  border-color: var(--moss);
-  background: var(--moss-light);
-}
-.upload-icon-wrap {
-  width: 48px; height: 48px;
-  margin: 0 auto 12px;
-  background: var(--ink);
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.3rem;
-}
-.upload-zone h3 { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; }
-.upload-zone p { font-size: 0.75rem; color: var(--ink-soft); margin-top: 4px; }
-.upload-zone input { display: none; }
+.dropzone:hover, .dropzone.over { border-color: var(--violet); background: var(--violet-light); }
+.dropzone input { display: none; }
+.dz-ico { font-size: 2rem; margin-bottom: 10px; }
+.dz-title { font-size: 0.9rem; font-weight: 700; }
+.dz-sub { font-size: 0.72rem; color: var(--ink-muted); margin-top: 4px; }
 
-/* ─── Selected File Strip ────────────────── */
-.file-strip {
+/* ── File strip ── */
+.fstrip {
   display: flex; align-items: center; gap: 12px;
-  background: var(--moss-light);
-  border: 1px solid var(--moss-mid);
-  border-radius: var(--r-sm);
-  padding: 12px 14px;
-}
-.file-icon-box {
-  width: 36px; height: 36px;
-  background: var(--moss);
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.65rem; font-weight: 800; color: white;
-  flex-shrink: 0;
-}
-.file-strip-info { flex: 1; min-width: 0; }
-.file-strip-name { font-size: 0.82rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.file-strip-size { font-size: 0.7rem; color: var(--ink-soft); }
-.strip-rm {
-  background: transparent; border: none; cursor: pointer;
-  color: var(--ink-soft); font-size: 1rem;
-  width: 28px; height: 28px; border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s; flex-shrink: 0;
-}
-.strip-rm:hover { background: var(--rose-light); color: var(--rose); }
-
-/* ─── Form Panel ─────────────────────────── */
-.form-panel {
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: var(--r);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-}
-.form-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
-
-.field label {
-  display: block;
-  font-size: 0.7rem; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.06em;
-  color: var(--ink-soft); margin-bottom: 5px;
-}
-.field input, .field select, .field textarea {
-  width: 100%;
-  padding: 9px 12px;
-  border: 1.5px solid var(--rule);
-  border-radius: var(--r-sm);
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 0.85rem;
-  color: var(--ink);
-  background: var(--paper);
-  outline: none;
-  transition: border-color 0.18s, box-shadow 0.18s;
-}
-.field input:focus, .field select:focus, .field textarea:focus {
-  border-color: var(--moss);
-  box-shadow: 0 0 0 3px var(--moss-light);
-  background: white;
-}
-.field textarea { resize: vertical; min-height: 70px; }
-
-/* ─── Approver Builder ───────────────────── */
-.approver-search-wrap { position: relative; }
-.approver-search-wrap input { padding-right: 36px; }
-.search-icon {
-  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-  color: var(--ink-muted); font-size: 0.9rem; pointer-events: none;
-}
-.suggestions {
-  position: absolute; top: calc(100% + 4px); left: 0; right: 0;
-  background: var(--surface);
-  border: 1.5px solid var(--rule);
-  border-radius: var(--r-sm);
-  box-shadow: var(--shadow);
-  z-index: 50;
-  max-height: 200px;
-  overflow-y: auto;
-  display: none;
-}
-.suggestions.open { display: block; }
-.suggestion-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 12px;
-  cursor: pointer;
-  transition: background 0.12s;
-}
-.suggestion-item:hover { background: var(--paper); }
-.s-avatar {
-  width: 28px; height: 28px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.65rem; font-weight: 700;
-  font-family: 'Syne', sans-serif;
-  flex-shrink: 0;
-}
-.s-info { flex: 1; min-width: 0; }
-.s-name { font-size: 0.82rem; font-weight: 600; }
-.s-email { font-size: 0.7rem; color: var(--ink-soft); }
-
-/* ─── Approver Tags ──────────────────────── */
-.approver-tags {
-  display: flex; flex-wrap: wrap; gap: 6px;
-  margin-top: 8px;
-  min-height: 0;
-}
-.approver-tag {
-  display: flex; align-items: center; gap: 6px;
-  background: var(--sky-light);
-  border: 1px solid #b8d0e8;
-  border-radius: 20px;
-  padding: 4px 10px 4px 6px;
-  font-size: 0.75rem;
-  animation: tagIn 0.2s ease;
-}
-@keyframes tagIn { from { opacity:0; transform: scale(0.85); } to { opacity:1; transform: scale(1); } }
-.tag-av {
-  width: 20px; height: 20px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.55rem; font-weight: 700;
-  color: white; flex-shrink: 0;
-}
-.tag-name { font-weight: 600; color: var(--sky); }
-.tag-rm {
-  background: transparent; border: none; cursor: pointer;
-  color: #7a9ab8; font-size: 0.75rem; line-height: 1;
-  padding: 0; margin-left: 2px;
-  transition: color 0.12s;
-}
-.tag-rm:hover { color: var(--rose); }
-
-.approver-hint {
-  font-size: 0.72rem; color: var(--ink-muted); margin-top: 4px;
-}
-
-/* ─── Progress Indicators ────────────────── */
-.parallel-info {
-  background: var(--sky-light);
-  border: 1px solid #c8daf0;
+  background: var(--violet-light);
+  border: 1px solid var(--violet-border);
   border-radius: var(--r-sm);
   padding: 10px 14px;
-  font-size: 0.78rem;
-  color: var(--sky);
-  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 14px;
 }
+.fstrip-ext {
+  width: 32px; height: 38px;
+  border-radius: 6px; background: var(--violet);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.58rem; font-weight: 800; color: white;
+  font-family: 'JetBrains Mono', monospace;
+  flex-shrink: 0; position: relative; overflow: hidden;
+}
+.fstrip-ext::after { content:''; position:absolute; top:0; right:0; border-left:7px solid var(--violet-light); border-bottom:7px solid transparent; }
+.fstrip-info { flex: 1; min-width: 0; }
+.fstrip-name { font-size: 0.82rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--violet); }
+.fstrip-size { font-size: 0.68rem; color: var(--ink-muted); }
+.fstrip-rm { background: transparent; border: none; cursor: pointer; color: var(--ink-muted); font-size: 1rem; padding: 4px; border-radius: 4px; transition: all 0.15s; }
+.fstrip-rm:hover { color: var(--red); background: var(--red-light); }
 
-/* ─── Buttons ────────────────────────────── */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-  padding: 10px 20px;
+/* ── Form ── */
+.fg { display: grid; gap: 12px; margin-bottom: 12px; }
+.fg-2 { grid-template-columns: 1fr 1fr; }
+.fg-1 { grid-template-columns: 1fr; }
+.fl label { display: block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-muted); margin-bottom: 5px; }
+.fl input, .fl select, .fl textarea {
+  width: 100%; padding: 9px 11px;
+  border: 1.5px solid var(--border);
   border-radius: var(--r-sm);
-  font-family: 'Syne', sans-serif;
-  font-size: 0.82rem; font-weight: 700;
-  letter-spacing: -0.01em;
-  cursor: pointer; border: none;
-  transition: all 0.18s;
-}
-.btn-primary {
-  background: var(--ink); color: var(--paper);
-  width: 100%;
-}
-.btn-primary:hover { background: #2a2820; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
-.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
-.btn-ghost {
-  background: transparent; color: var(--ink-soft);
-  border: 1px solid var(--rule);
-  font-family: 'Instrument Sans', sans-serif; font-weight: 500;
-}
-.btn-ghost:hover { background: var(--paper); color: var(--ink); }
-.btn-approve { background: var(--moss); color: white; }
-.btn-approve:hover { background: #1e4430; }
-.btn-reject { background: var(--rose); color: white; }
-.btn-reject:hover { background: #6b2020; }
-
-/* ─── Detail Panel ───────────────────────── */
-.detail-panel {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem; color: var(--ink);
   background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: var(--r);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
+  outline: none; transition: border-color 0.15s, box-shadow 0.15s;
+}
+.fl input:focus, .fl select:focus, .fl textarea:focus {
+  border-color: var(--violet);
+  box-shadow: 0 0 0 3px var(--violet-light);
+}
+.fl textarea { resize: vertical; min-height: 72px; }
+
+/* ── User search ── */
+.usearch { position: relative; }
+.ubox {
+  position: absolute; top: calc(100%+4px); left: 0; right: 0;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  box-shadow: var(--shadow-lg);
+  z-index: 60; max-height: 190px; overflow-y: auto;
   display: none;
 }
-.detail-panel.visible { display: block; }
-.detail-head {
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--rule);
-  background: var(--paper);
-}
-.detail-filename {
-  font-family: 'Syne', sans-serif;
-  font-size: 0.88rem; font-weight: 700;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.detail-meta { font-size: 0.72rem; color: var(--ink-soft); margin-top: 2px; }
-.detail-body { padding: 16px 20px; }
-
-.approver-progress { display: flex; flex-direction: column; gap: 8px; }
-.ap-row {
+.ubox.open { display: block; }
+.urow {
   display: flex; align-items: center; gap: 10px;
-  padding: 10px 12px;
-  border-radius: var(--r-sm);
-  border: 1px solid var(--rule);
-  background: var(--paper);
+  padding: 9px 12px; cursor: pointer;
+  transition: background 0.12s;
 }
-.ap-avatar {
-  width: 32px; height: 32px; border-radius: 50%;
+.urow:hover { background: var(--bg); }
+.uav { width: 26px; height: 26px; border-radius: 50%; display:flex; align-items:center; justify-content:center; font-size:0.58rem; font-weight:700; color:white; flex-shrink:0; }
+.un { font-size: 0.8rem; font-weight: 600; }
+.ud { font-size: 0.68rem; color: var(--ink-muted); }
+
+/* ── Tags ── */
+.tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
+.tag {
+  display: flex; align-items: center; gap: 5px;
+  background: var(--violet-light);
+  border: 1px solid var(--violet-border);
+  border-radius: 20px; padding: 3px 9px 3px 4px;
+  font-size: 0.72rem; animation: tagpop 0.18s ease;
+}
+@keyframes tagpop { from{opacity:0;transform:scale(0.8)} to{opacity:1;transform:scale(1)} }
+.tag-av { width: 16px; height: 16px; border-radius: 50%; display:flex; align-items:center; justify-content:center; font-size:0.48rem; font-weight:700; color:white; }
+.tag-n { color: var(--violet); font-weight: 600; }
+.tag-x { background:transparent; border:none; cursor:pointer; color:var(--ink-muted); font-size:0.7rem; padding:0; transition:color 0.12s; }
+.tag-x:hover { color: var(--red); }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 9px 20px; border-radius: var(--r-sm);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.83rem; font-weight: 600;
+  cursor: pointer; border: none; transition: all 0.18s;
+}
+.btn-v { background: var(--violet); color: white; }
+.btn-v:hover { background: #3d2dd4; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(79,61,255,0.3); }
+.btn-v:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn-ghost { background: transparent; color: var(--ink-soft); border: 1px solid var(--border); }
+.btn-ghost:hover { border-color: var(--ink-soft); color: var(--ink); }
+.btn-green { background: var(--green); color: white; width: 100%; padding: 12px; font-size: 0.9rem; }
+.btn-green:hover { background: #15803d; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(22,163,74,0.3); }
+.btn-green:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn-outline { background: transparent; color: var(--violet); border: 1.5px solid var(--violet-border); }
+.btn-outline:hover { background: var(--violet-light); }
+
+/* ── Doc list ── */
+.doc-list { display: flex; flex-direction: column; }
+.doc-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer; transition: background 0.12s;
+}
+.doc-row:last-child { border-bottom: none; }
+.doc-row:hover { background: var(--bg); }
+.doc-row.sel { background: var(--violet-light); }
+.doc-thumb {
+  width: 36px; height: 42px; border-radius: 6px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 0.65rem; font-weight: 700; font-family: 'Syne', sans-serif;
-  color: white; flex-shrink: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem; font-weight: 700;
+  flex-shrink: 0; position: relative; overflow: hidden;
 }
-.ap-info { flex: 1; }
-.ap-name { font-size: 0.82rem; font-weight: 600; }
-.ap-date { font-size: 0.7rem; color: var(--ink-soft); }
-.ap-status {
-  font-size: 0.68rem; font-weight: 700;
-  font-family: 'Syne', sans-serif;
+.doc-thumb::after { content:''; position:absolute; top:0; right:0; border-left:8px solid rgba(255,255,255,0.5); border-bottom:8px solid transparent; }
+.doc-thumb.pdf { background: #fee2e2; color: #b91c1c; }
+.doc-thumb.docx, .doc-thumb.doc { background: #dbeafe; color: #1d4ed8; }
+.doc-thumb.xlsx, .doc-thumb.xls { background: #dcfce7; color: #15803d; }
+.doc-thumb.pptx, .doc-thumb.ppt { background: #ffedd5; color: #c2410c; }
+.doc-thumb.def { background: #f3f4f6; color: #6b7280; }
+.doc-info { flex: 1; min-width: 0; }
+.doc-name { font-size: 0.85rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.doc-meta { font-size: 0.7rem; color: var(--ink-muted); margin-top: 2px; }
+.doc-prog { flex-shrink: 0; }
+.dp-bar { width: 72px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-top: 5px; }
+.dp-fill { height: 100%; background: var(--green); border-radius: 2px; transition: width 0.4s; }
+.dp-txt { font-size: 0.68rem; color: var(--ink-muted); text-align: right; }
+
+/* ── Badge ── */
+.badge {
+  padding: 3px 9px; border-radius: 20px;
+  font-size: 0.65rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.05em;
   flex-shrink: 0;
 }
-.ap-status.approved { color: var(--moss); }
-.ap-status.pending { color: var(--amber); }
-.ap-status.rejected { color: var(--rose); }
+.badge.complete { background: var(--green-light); color: var(--green); border: 1px solid var(--green-border); }
+.badge.partial { background: var(--amber-light); color: var(--amber); border: 1px solid var(--amber-border); }
+.badge.pending { background: var(--violet-light); color: var(--violet); border: 1px solid var(--violet-border); }
+.badge.unread { background: var(--red-light); color: var(--red); border: 1px solid var(--red-border); }
 
-.progress-bar-wrap { margin: 14px 0 4px; }
-.progress-label {
-  display: flex; justify-content: space-between;
-  font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 6px;
-}
-.progress-track {
-  height: 6px; background: var(--rule);
-  border-radius: 10px; overflow: hidden;
-}
-.progress-fill {
-  height: 100%; background: var(--moss);
-  border-radius: 10px;
-  transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1);
-}
+/* ── Two col ── */
+.two-col { display: grid; grid-template-columns: 1fr 320px; gap: 16px; align-items: start; }
 
-.section-label {
-  font-size: 0.68rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.07em;
-  color: var(--ink-muted); margin-bottom: 8px;
+/* ── Detail ── */
+.detail {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  position: sticky; top: 0;
 }
+.detail-head { padding: 14px 16px; border-bottom: 1px solid var(--border); background: var(--bg); }
+.detail-title { font-size: 0.88rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.detail-meta { font-size: 0.68rem; color: var(--ink-muted); margin-top: 2px; }
+.detail-body { padding: 14px 16px; }
 
-.detail-actions { display: flex; gap: 8px; margin-top: 14px; }
+/* ── Progress ring ── */
+.ring-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.ring { position: relative; width: 54px; height: 54px; flex-shrink: 0; }
+.ring svg { transform: rotate(-90deg); }
+.ring circle { fill: none; stroke-width: 5; }
+.ring-bg { stroke: var(--border); }
+.ring-fill { stroke: var(--green); stroke-linecap: round; transition: stroke-dashoffset 0.6s cubic-bezier(0.34,1.56,0.64,1); }
+.ring-txt { position: absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:0.78rem; font-weight:800; }
+.ring-info h4 { font-size:0.88rem; font-weight:700; }
+.ring-info p { font-size:0.7rem; color:var(--ink-muted); margin-top:2px; }
 
-/* ─── Modal ──────────────────────────────── */
-.overlay {
+.reader-row {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 10px; border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  background: var(--bg); margin-bottom: 5px;
+}
+.r-av { width: 28px; height: 28px; border-radius: 50%; display:flex; align-items:center; justify-content:center; font-size:0.58rem; font-weight:700; color:white; flex-shrink:0; }
+.r-name { font-size:0.78rem; font-weight:600; flex:1; }
+.r-date { font-size:0.65rem; color:var(--ink-muted); }
+.r-ok { font-size:0.65rem; font-weight:700; flex-shrink:0; }
+.r-ok.yes { color: var(--green); }
+.r-ok.no { color: var(--ink-muted); }
+
+/* ── Report table ── */
+.rtable { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.rtable th { text-align: left; padding: 8px 12px; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-muted); border-bottom: 1px solid var(--border); font-weight: 600; }
+.rtable td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+.rtable tr:last-child td { border-bottom: none; }
+
+/* ── Employee cards ── */
+.emp-main { padding: 24px 28px; }
+.emp-welcome {
+  margin-bottom: 20px;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, var(--violet) 0%, #6d28d9 100%);
+  border-radius: var(--r);
+  color: white;
+}
+.emp-welcome h2 { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; }
+.emp-welcome p { font-size: 0.8rem; opacity: 0.8; margin-top: 4px; }
+.emp-banner {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--amber-light);
+  border: 1px solid var(--amber-border);
+  border-radius: var(--r-sm);
+  padding: 12px 16px; margin-bottom: 16px;
+}
+.emp-banner-icon { font-size: 1.2rem; }
+.emp-banner h4 { font-size: 0.83rem; font-weight: 700; color: var(--amber); }
+.emp-banner p { font-size: 0.72rem; color: var(--ink-soft); margin-top: 2px; }
+
+.ecard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden; margin-bottom: 12px;
+  box-shadow: var(--shadow);
+  transition: border-color 0.2s;
+}
+.ecard.done { border-color: var(--green-border); }
+.ecard-head {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+}
+.ecard-body { padding: 14px 18px; }
+.ecard-desc { font-size: 0.8rem; color: var(--ink-soft); margin-bottom: 12px; line-height: 1.5; }
+.ecard-meta { display: flex; gap: 14px; margin-bottom: 14px; }
+.ecard-meta-item { font-size: 0.7rem; color: var(--ink-muted); display: flex; align-items: center; gap: 4px; }
+.read-done {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px;
+  background: var(--green-light);
+  border: 1px solid var(--green-border);
+  border-radius: var(--r-sm);
+  font-size: 0.78rem; color: var(--green); font-weight: 600;
+}
+.open-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 7px 14px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--r-sm); font-size: 0.75rem; font-weight: 600;
+  cursor: pointer; color: var(--ink-soft); font-family: 'Outfit', sans-serif;
+  transition: all 0.15s; margin-bottom: 10px; width: fit-content;
+}
+.open-btn:hover { border-color: var(--violet); color: var(--violet); background: var(--violet-light); }
+
+/* ── Modal ── */
+.ov {
   position: fixed; inset: 0;
-  background: rgba(15,14,12,0.5);
+  background: rgba(28,26,23,0.5);
   backdrop-filter: blur(6px);
   z-index: 100;
   display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.2s;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s;
 }
-.overlay.on { opacity: 1; pointer-events: all; }
+.ov.on { opacity: 1; pointer-events: all; }
 .modal {
   background: var(--surface);
-  border-radius: 20px;
-  padding: 32px;
-  width: 440px; max-width: 95vw;
+  border-radius: 18px;
+  padding: 28px;
+  width: 420px; max-width: 95vw;
   box-shadow: var(--shadow-lg);
-  transform: translateY(20px) scale(0.97);
-  transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  transform: translateY(16px) scale(0.97);
+  transition: transform 0.24s cubic-bezier(0.34,1.56,0.64,1);
 }
-.overlay.on .modal { transform: translateY(0) scale(1); }
-.modal-icon { font-size: 2rem; margin-bottom: 12px; }
-.modal h2 { font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 800; margin-bottom: 6px; }
-.modal p { font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 18px; }
-.modal .field { margin-bottom: 0; }
-.modal-acts { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
+.ov.on .modal { transform: none; }
+.modal-ico { font-size: 1.8rem; margin-bottom: 10px; }
+.modal h2 { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 5px; }
+.modal p { font-size: 0.8rem; color: var(--ink-soft); margin-bottom: 16px; line-height: 1.5; }
+.modal-doc {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 11px 13px;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+}
+.modal-doc-ext { width: 30px; height: 30px; border-radius: 6px; background: var(--violet); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:0.55rem; color:white; font-weight:700; }
+.modal-doc-name { font-size: 0.8rem; font-weight: 700; }
+.modal-doc-sub { font-size: 0.68rem; color: var(--ink-muted); }
+.check-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--green-light); border: 1px solid var(--green-border);
+  border-radius: var(--r-sm); padding: 11px 13px;
+  margin-bottom: 16px; cursor: pointer;
+}
+.chk {
+  width: 18px; height: 18px; border-radius: 4px;
+  border: 2px solid var(--green); background: transparent;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px; transition: background 0.15s;
+  font-size: 0.7rem; color: white;
+}
+.chk.on { background: var(--green); }
+.chk-text { font-size: 0.78rem; color: var(--ink-soft); line-height: 1.4; }
+.modal-acts { display: flex; gap: 8px; justify-content: flex-end; }
 
-/* ─── Toast ──────────────────────────────── */
+/* ── Toast ── */
 .toast {
-  position: fixed; bottom: 28px; right: 28px;
-  padding: 12px 18px;
-  border-radius: var(--r-sm);
-  font-size: 0.82rem; font-weight: 600;
-  display: flex; align-items: center; gap: 8px;
-  transform: translateY(60px); opacity: 0;
+  position: fixed; bottom: 22px; right: 22px;
+  padding: 11px 16px; border-radius: var(--r-sm);
+  font-size: 0.78rem; font-weight: 600;
+  display: flex; align-items: center; gap: 7px;
+  transform: translateY(50px); opacity: 0;
   transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
-  z-index: 200; max-width: 340px;
-  box-shadow: var(--shadow-lg);
-  color: white;
+  z-index: 200; max-width: 300px;
+  box-shadow: var(--shadow-lg); color: white;
 }
-.toast.show { transform: translateY(0); opacity: 1; }
-.toast.ok { background: var(--moss); }
-.toast.err { background: var(--rose); }
+.toast.show { transform: none; opacity: 1; }
+.toast.ok { background: var(--green); }
+.toast.err { background: var(--red); }
 .toast.info { background: var(--ink); }
 
-/* ─── Config notice ──────────────────────── */
-.notice {
-  background: #fffbeb; border: 1px solid #f5d57a;
-  border-radius: var(--r-sm); padding: 12px 16px;
-  font-size: 0.78rem; color: #78520a; margin-bottom: 20px;
-  display: flex; gap: 8px; align-items: flex-start;
-}
+.empty { text-align: center; padding: 36px 20px; color: var(--ink-muted); font-size: 0.8rem; }
+.slbl { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: var(--ink-muted); margin-bottom: 9px; }
 
-@media (max-width: 720px) {
-  .cols { grid-template-columns: 1fr; }
-  .stats { grid-template-columns: repeat(2,1fr); }
-  .right-col { order: -1; }
+@media(max-width:700px){
+  .shell{flex-direction:column;}
+  .sidebar{width:100%;border-right:none;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;padding:8px;}
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .two-col{grid-template-columns:1fr;}
+  .fg-2{grid-template-columns:1fr;}
 }
 </style>
 </head>
 <body>
+
 <script>
 // ══════════════════════════════════════════════
 //  ⚙️  CONFIG — Kendi değerlerinizi girin
 // ══════════════════════════════════════════════
 const CFG = {
-  FLOW_URL: "https://defaultee7a19d634f6497fafdd901f6d43ea.25.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/ed164128abcd406e9871228d8700bdda/triggers/manual/paths/invoke?api-version=1",
-  
-  SITE_URL: "https://balsugidatr.sharepoint.com/sites/ik",
-  LIBRARY:  "Belgeler",
-  
-  ME_NAME:  "Yusuf Yıldırım",
-  ME_EMAIL: "yorunge@balsugida.com",
+  // Flow 1: Belge yükle ve dağıt
+  FLOW_UPLOAD_URL: "https://defaultee7a19d634f6497fafdd901f6d43ea.25.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/75d5f56231914dc590b11c1cd499a37f/triggers/manual/paths/invoke?api-version=1",
 
+  // Flow 2: Okuma kaydı oluştur
+  FLOW_READ_URL: "https://defaultee7a19d634f6497fafdd901f6d43ea.25.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/922eeac1a71c42b9ab83fcc01811e013/triggers/manual/paths/invoke?api-version=1",
+
+  // SharePoint
+  SITE_URL: "https://balsugidatr.sharepoint.com/sites/ik",
+  LIBRARY: "Belgeler",
+
+  // Kullanıcılar — role: "admin" veya "employee"
   USERS: [
-    { name:"Cemile Dilaver", email:"cemiled@balsugida.com", dept:"Muhasebe", color:"#2d5a8e" },
-    { name:"yorungetest", email:"yorungetest@balsugida.com", dept:"IT", color:"#5a2d8e" },
-    // Şirketteki diğer kişileri buraya ekleyin
+    { name:"Yusuf Yıldırım",  email:"yorungetest@balsugida.com",   dept:"Yönetim",  role:"admin",    color:"#4f3dff" },
+    { name:"Cemile Dilaver",      email:"cemiled@balsugida.com",      dept:"İK",       role:"employee", color:"#0891b2" },
+   
   ]
 };
 </script>
 
-<div class="wrap">
-
-  <div class="notice">
-    ⚙️ <div><strong>Kurulum:</strong> Sayfanın üstündeki <code>CFG</code> bölümüne Power Automate URL'nizi ve kullanıcı listenizi girin. Kullanıcıları Azure AD'den otomatik çekmeye de bağlayabiliriz.</div>
+<!-- Role Bar -->
+<div class="role-bar">
+  <span class="role-bar-text">🔧 Demo — Rol seçin:</span>
+  <div class="role-tabs">
+    <button class="role-btn on" onclick="switchRole('admin')">👤 Admin</button>
+    <button class="role-btn" onclick="switchRole('employee')">👥 Çalışan</button>
   </div>
+</div>
 
-  <!-- Header -->
-  <header class="site-header">
-    <div class="logo">
-      <div class="logo-mark">BOS</div>
-      <div class="logo-text">
-        <h1>Belge Onay Sistemi</h1>
-        <p>Paralel çok-onaylayıcı · SharePoint entegrasyonu</p>
-      </div>
-    </div>
-    <div class="user-pill">
-      <div class="avatar" id="myAvatar"></div>
-      <span id="myName"></span>
-    </div>
-  </header>
-
-  <!-- Stats -->
-  <div class="stats">
-    <div class="stat-card total"><div class="stat-accent"></div><div class="stat-n" id="sTotal">0</div><div class="stat-lbl">Toplam Belge</div></div>
-    <div class="stat-card ok">  <div class="stat-accent"></div><div class="stat-n" id="sOk">0</div>   <div class="stat-lbl">Onaylandı</div></div>
-    <div class="stat-card wait"><div class="stat-accent"></div><div class="stat-n" id="sWait">0</div>  <div class="stat-lbl">Beklemede</div></div>
-    <div class="stat-card no">  <div class="stat-accent"></div><div class="stat-n" id="sNo">0</div>   <div class="stat-lbl">Reddedildi</div></div>
-  </div>
-
-  <!-- Two Column -->
-  <div class="cols">
-
-    <!-- Left: Document List -->
+<!-- Top Bar -->
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-icon">📋</div>
     <div>
-      <div class="panel">
-        <div class="panel-head">
-          <div class="panel-title">Tüm Belgeler</div>
-          <div class="pill-count" id="docCount">0</div>
-        </div>
-        <div class="doc-list" id="docList">
-          <div class="empty-docs">📂 Henüz belge yok.<br>Sağdaki alandan PDF, Word veya diğer Office dosyalarını gönderin.</div>
-        </div>
-      </div>
+      <div class="brand-name">Belge Okuma Sistemi</div>
+      <div class="brand-sub">BALSU GIDA · İnsan Kaynakları</div>
+    </div>
+  </div>
+  <div class="topbar-user">
+    <div class="t-av" id="tAv"></div>
+    <span class="t-name" id="tName"></span>
+    <span class="t-badge" id="tBadge"></span>
+  </div>
+</div>
 
-      <!-- Detail Panel (below list) -->
-      <div class="detail-panel" id="detailPanel" style="margin-top:16px;">
-        <div class="detail-head">
-          <div class="detail-filename" id="dFileName">—</div>
-          <div class="detail-meta" id="dMeta">—</div>
-        </div>
-        <div class="detail-body">
-          <div class="section-label">Onay Durumu</div>
-          <div class="progress-bar-wrap">
-            <div class="progress-label">
-              <span id="dProgressLabel">0 / 0 onay</span>
-              <span id="dProgressPct">0%</span>
-            </div>
-            <div class="progress-track"><div class="progress-fill" id="dProgressFill" style="width:0%"></div></div>
-          </div>
-          <div class="approver-progress" id="dApprovers" style="margin-top:12px;"></div>
-          <div class="detail-actions" id="dActions"></div>
-        </div>
-      </div>
+<!-- ADMIN VIEW -->
+<div id="adminView">
+  <div class="shell">
+    <div class="sidebar">
+      <div class="nav-section">Yönetim</div>
+      <button class="nav-btn on" onclick="goPage('dash')"><span class="ico">📊</span>Genel Bakış</button>
+      <button class="nav-btn" onclick="goPage('upload')"><span class="ico">📤</span>Belge Yükle</button>
+      <button class="nav-btn" onclick="goPage('docs')">
+        <span class="ico">📁</span>Belgeler
+        <span class="nav-count" id="navCnt">0</span>
+      </button>
+      <div class="nav-section">Raporlar</div>
+      <button class="nav-btn" onclick="goPage('report')"><span class="ico">📋</span>Okuma Raporu</button>
     </div>
 
-    <!-- Right: Upload + Form -->
-    <div class="right-col">
+    <div class="main">
+
+      <!-- Dashboard -->
+      <div id="pgDash">
+        <div class="pg-head">
+          <div class="pg-title">Genel Bakış</div>
+          <div class="pg-sub">Belge okuma takip sistemi özeti</div>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="stat-val v" id="sTotal">0</div><div class="stat-lbl">Toplam Belge</div></div>
+          <div class="stat"><div class="stat-val g" id="sDone">0</div><div class="stat-lbl">Tam Okundu</div></div>
+          <div class="stat"><div class="stat-val a" id="sPartial">0</div><div class="stat-lbl">Kısmi Okundu</div></div>
+          <div class="stat"><div class="stat-val r" id="sNone">0</div><div class="stat-lbl">Hiç Okunmadı</div></div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">Son Belgeler</span>
+            <button class="btn btn-v" style="padding:6px 14px;font-size:0.75rem;" onclick="goPage('upload')">+ Yeni Yükle</button>
+          </div>
+          <div class="doc-list" id="dashList"><div class="empty">Henüz belge yok.</div></div>
+        </div>
+      </div>
 
       <!-- Upload -->
-      <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileIn').click()">
-        <div class="upload-icon-wrap">📎</div>
-        <h3>Dosya Seç veya Sürükle</h3>
-        <p>PDF · Word · Excel · PowerPoint · Maks 20 MB</p>
-        <input type="file" id="fileIn" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" onchange="pickFile(event)">
-      </div>
-
-      <div id="fileStrip" style="display:none;">
-        <div class="file-strip">
-          <div class="file-icon-box" id="fIconBox"></div>
-          <div class="file-strip-info">
-            <div class="file-strip-name" id="fName"></div>
-            <div class="file-strip-size" id="fSize"></div>
-          </div>
-          <button class="strip-rm" onclick="clearFile()">✕</button>
+      <div id="pgUpload" style="display:none;">
+        <div class="pg-head">
+          <div class="pg-title">Yeni Belge Yükle</div>
+          <div class="pg-sub">Belgeyi yükleyin ve okuyacak çalışanları seçin</div>
         </div>
-      </div>
-
-      <!-- Form -->
-      <div class="form-panel" id="formPanel" style="display:none;">
-        <div class="panel-head">
-          <div class="panel-title">Onay İsteği Oluştur</div>
-        </div>
-        <div class="form-body">
-
-          <div class="field">
-            <label>Belge Başlığı *</label>
-            <input type="text" id="fTitle" placeholder="Örn: Q2 Hizmet Sözleşmesi">
-          </div>
-
-          <div class="field">
-            <label>Belge Türü</label>
-            <select id="fType">
-              <option>Sözleşme</option>
-              <option>Rapor</option>
-              <option>Yönerge</option>
-              <option>Prosedür</option>
-              <option>Form</option>
-              <option>Teklif</option>
-              <option>Diğer</option>
-            </select>
-          </div>
-
-          <!-- Approver Search -->
-          <div class="field">
-            <label>Onaylayıcılar * <span style="font-weight:400;text-transform:none;letter-spacing:0">(birden fazla seçebilirsiniz)</span></label>
-            <div class="approver-search-wrap">
-              <input type="text" id="approverSearch" placeholder="İsim veya e-posta ara..." autocomplete="off" oninput="searchUsers(this.value)" onfocus="searchUsers(this.value)">
-              <span class="search-icon">🔍</span>
-              <div class="suggestions" id="suggestions"></div>
+        <div class="card">
+          <div class="card-body">
+            <div class="dropzone" id="dz" onclick="document.getElementById('fin').click()">
+              <div class="dz-ico">📎</div>
+              <div class="dz-title">Dosya Seç veya Sürükle</div>
+              <div class="dz-sub">PDF · Word · Excel · PowerPoint · Maks 20 MB</div>
+              <input type="file" id="fin" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" onchange="pickFile(event)">
             </div>
-            <div class="approver-tags" id="approverTags"></div>
-            <div class="approver-hint" id="approverHint"></div>
+            <div id="formWrap" style="display:none;">
+              <div id="fstrip" class="fstrip">
+                <div class="fstrip-ext" id="fExt"></div>
+                <div class="fstrip-info">
+                  <div class="fstrip-name" id="fName"></div>
+                  <div class="fstrip-size" id="fSize"></div>
+                </div>
+                <button class="fstrip-rm" onclick="clearFile()">✕</button>
+              </div>
+              <div class="fg fg-2">
+                <div class="fl"><label>Belge Başlığı *</label><input type="text" id="fTitle" placeholder="Örn: İSG Prosedürü 2024"></div>
+                <div class="fl"><label>Belge Türü</label>
+                  <select id="fType">
+                    <option>Prosedür</option><option>Yönerge</option><option>Politika</option>
+                    <option>Duyuru</option><option>Sözleşme</option><option>Form</option><option>Diğer</option>
+                  </select>
+                </div>
+              </div>
+              <div class="fg fg-1" style="margin-bottom:12px;">
+                <div class="fl">
+                  <label>Okuyacak Çalışanlar *</label>
+                  <div class="usearch">
+                    <input type="text" id="uSearch" placeholder="İsim veya departman ara..." autocomplete="off"
+                      oninput="searchU(this.value)" onfocus="searchU(this.value)">
+                    <div class="ubox" id="uBox"></div>
+                  </div>
+                  <div class="tags" id="uTags"></div>
+                  <div style="font-size:0.68rem;color:var(--ink-muted);margin-top:5px;" id="uHint"></div>
+                </div>
+              </div>
+              <div class="fg fg-1">
+                <div class="fl"><label>Açıklama / Okuma Talimatı</label><textarea id="fDesc" placeholder="Çalışanlara iletmek istediğiniz bilgi veya talimat..."></textarea></div>
+              </div>
+              <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:4px;">
+                <button class="btn btn-ghost" onclick="clearFile()">İptal</button>
+                <button class="btn btn-v" id="sendBtn" onclick="sendDoc()">Çalışanlara Gönder →</button>
+              </div>
+            </div>
           </div>
+        </div>
+      </div>
 
-          <div class="parallel-info">
-            ⚡ <span>Tüm onaylayıcılara <strong>aynı anda</strong> gönderilecek. Herkes onayladığında belge "Onaylandı" olur.</span>
+      <!-- Docs -->
+      <div id="pgDocs" style="display:none;">
+        <div class="pg-head">
+          <div class="pg-title">Tüm Belgeler</div>
+          <div class="pg-sub">Belge bazlı okuma durumları</div>
+        </div>
+        <div class="two-col">
+          <div class="card">
+            <div class="doc-list" id="docsList"><div class="empty">Henüz belge yok.</div></div>
           </div>
-
-          <div class="field">
-            <label>Not / Açıklama</label>
-            <textarea id="fNote" placeholder="Onaylayıcılara iletmek istediğiniz not..."></textarea>
+          <div class="detail" id="detailPanel" style="display:none;">
+            <div class="detail-head">
+              <div class="detail-title" id="dTitle">—</div>
+              <div class="detail-meta" id="dMeta">—</div>
+            </div>
+            <div class="detail-body">
+              <div class="ring-wrap">
+                <div class="ring">
+                  <svg width="54" height="54" viewBox="0 0 54 54">
+                    <circle class="ring-bg" cx="27" cy="27" r="22" stroke-dasharray="138" stroke-dashoffset="0"/>
+                    <circle class="ring-fill" id="ringFill" cx="27" cy="27" r="22" stroke-dasharray="138" stroke-dashoffset="138"/>
+                  </svg>
+                  <div class="ring-txt" id="ringPct">0%</div>
+                </div>
+                <div class="ring-info">
+                  <h4 id="ringLabel">0 / 0 Okudu</h4>
+                  <p id="ringSub">—</p>
+                </div>
+              </div>
+              <div class="slbl">Çalışan Durumu</div>
+              <div id="readerRows"></div>
+            </div>
           </div>
+        </div>
+      </div>
 
-          <button class="btn btn-primary" id="sendBtn" onclick="sendApproval()">
-            Onaya Gönder →
-          </button>
-
+      <!-- Report -->
+      <div id="pgReport" style="display:none;">
+        <div class="pg-head">
+          <div class="pg-title">Okuma Raporu</div>
+          <div class="pg-sub">Tüm belgeler için okuma istatistikleri</div>
+        </div>
+        <div class="card">
+          <div class="card-body" id="reportBody"><div class="empty">Henüz veri yok.</div></div>
         </div>
       </div>
 
@@ -734,376 +711,453 @@ const CFG = {
   </div>
 </div>
 
-<!-- Approve Modal -->
-<div class="overlay" id="approveOv">
+<!-- EMPLOYEE VIEW -->
+<div id="empView" style="display:none;">
+  <div class="emp-main">
+    <div class="emp-welcome">
+      <h2>Merhaba, <span id="empName">—</span> 👋</h2>
+      <p>Aşağıdaki belgeler sizin onayınızı bekliyor. Lütfen okuyup "Okudum, Anladım" butonuna basın.</p>
+    </div>
+    <div class="emp-banner" id="empBanner" style="display:none;">
+      <div class="emp-banner-icon">📬</div>
+      <div>
+        <h4 id="empBannerTitle">Bekleyen belgeniz var</h4>
+        <p>Belgeleri okuyup onaylayın — yöneticiniz takip ediyor.</p>
+      </div>
+    </div>
+    <div id="empCards"><div class="empty">Size gönderilmiş belge bulunmuyor.</div></div>
+  </div>
+</div>
+
+<!-- Confirm Modal -->
+<div class="ov" id="confirmOv">
   <div class="modal">
-    <div class="modal-icon">✅</div>
-    <h2>Belgeyi Onayla</h2>
-    <p id="approveDesc">Belgeyi onaylamak üzeresiniz.</p>
-    <div class="field">
-      <label>Onay Yorumu (isteğe bağlı)</label>
-      <textarea id="approveComment" placeholder="Notunuzu yazın..."></textarea>
+    <div class="modal-ico">📄</div>
+    <h2>Okudum, Anladım</h2>
+    <p>Aşağıdaki belgeyi okuduğunuzu onaylamak üzeresiniz. Bu işlem geri alınamaz ve yöneticinize bildirilir.</p>
+    <div class="modal-doc">
+      <div class="modal-doc-ext" id="mExt">PDF</div>
+      <div>
+        <div class="modal-doc-name" id="mName">—</div>
+        <div class="modal-doc-sub" id="mSub">—</div>
+      </div>
+    </div>
+    <div class="check-row" onclick="toggleChk()">
+      <div class="chk" id="chkBox"></div>
+      <div class="chk-text">Bu belgeyi eksiksiz okudum, içeriğini anladım ve gerekli bilgileri aldığımı onaylıyorum.</div>
     </div>
     <div class="modal-acts">
-      <button class="btn btn-ghost" onclick="closeOv('approveOv')">Vazgeç</button>
-      <button class="btn btn-approve" onclick="doApprove()">Onayla</button>
+      <button class="btn btn-ghost" onclick="closeOv()">Vazgeç</button>
+      <button class="btn btn-green" id="confirmBtn" onclick="doConfirm()" disabled style="width:auto;padding:9px 20px;">✓ Okudum, Anladım</button>
     </div>
   </div>
 </div>
 
-<!-- Reject Modal -->
-<div class="overlay" id="rejectOv">
-  <div class="modal">
-    <div class="modal-icon">❌</div>
-    <h2>Belgeyi Reddet</h2>
-    <p id="rejectDesc">Red nedeninizi belirtin.</p>
-    <div class="field">
-      <label>Red Nedeni *</label>
-      <textarea id="rejectComment" placeholder="Açıklama yazın..."></textarea>
-    </div>
-    <div class="modal-acts">
-      <button class="btn btn-ghost" onclick="closeOv('rejectOv')">Vazgeç</button>
-      <button class="btn btn-reject" onclick="doReject()">Reddet</button>
-    </div>
-  </div>
-</div>
-
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ─── State ────────────────────────────────
-let file = null;
-let selectedApprovers = [];   // [{name, email, color}]
+// ── State ──────────────────────────────────
+let role = 'admin';
+let me = CFG.USERS[0];
+let selReaders = [];
+let upFile = null;
+let selDocId = null;
+let confirmId = null;
+let checked = false;
 let docs = [];
-let selectedDocId = null;
-let actionDocId = null;
 
-// ─── Init ─────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('myName').textContent = CFG.ME_NAME;
-  document.getElementById('myAvatar').textContent = initials(CFG.ME_NAME);
+// ── Init ───────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  setMe(CFG.USERS[0]);
+  renderAdmin();
   setupDrop();
-  render();
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.usearch')) document.getElementById('uBox').classList.remove('open');
+  });
 });
 
-function initials(name) {
-  return name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+function initials(n) { return n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(); }
+function ext(name) { return (name.split('.').pop()||'').toLowerCase(); }
+function extClass(e) { return ['pdf','doc','docx','xlsx','xls','pptx','ppt'].includes(e) ? e : 'def'; }
+function now() { return new Date().toLocaleString('tr-TR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
+
+function setMe(u) {
+  me = u;
+  document.getElementById('tAv').textContent = initials(u.name);
+  document.getElementById('tAv').style.background = u.color;
+  document.getElementById('tName').textContent = u.name;
+  document.getElementById('tBadge').textContent = u.role === 'admin' ? 'Admin' : 'Çalışan';
 }
 
-function colorFor(name) {
-  const colors = ["#2d5a8e","#5a2d8e","#8e2d5a","#2d8e5a","#8e5a2d","#2d6e8e","#6e8e2d","#8e2d2d"];
-  let h = 0; for (let c of name) h = (h*31 + c.charCodeAt(0)) & 0xffffff;
-  return colors[h % colors.length];
-}
-
-// ─── Render ───────────────────────────────
-function render() {
-  // Stats
-  document.getElementById('sTotal').textContent = docs.length;
-  document.getElementById('sOk').textContent    = docs.filter(d=>d.status==='approved').length;
-  document.getElementById('sWait').textContent  = docs.filter(d=>d.status==='pending'||d.status==='partial').length;
-  document.getElementById('sNo').textContent    = docs.filter(d=>d.status==='rejected').length;
-  document.getElementById('docCount').textContent = docs.length;
-
-  // List
-  const list = document.getElementById('docList');
-  if (!docs.length) {
-    list.innerHTML = '<div class="empty-docs">📂 Henüz belge yok.<br>Sağdaki alandan dosya gönderin.</div>';
-    return;
+// ── Role ───────────────────────────────────
+function switchRole(r) {
+  role = r;
+  document.querySelectorAll('.role-btn').forEach((b,i) => b.classList.toggle('on',(r==='admin'&&i===0)||(r==='employee'&&i===1)));
+  document.getElementById('adminView').style.display = r==='admin' ? 'block' : 'none';
+  document.getElementById('empView').style.display = r==='employee' ? 'block' : 'none';
+  if (r === 'employee') {
+    const emp = CFG.USERS.find(u=>u.role==='employee') || CFG.USERS[1];
+    setMe(emp);
+    document.getElementById('empName').textContent = emp.name.split(' ')[0];
+    renderEmp();
+  } else {
+    setMe(CFG.USERS[0]);
+    renderAdmin();
   }
-  list.innerHTML = docs.map(d => {
-    const done = d.approvers.filter(a=>a.status==='approved').length;
-    const total = d.approvers.length;
-    return `
-    <div class="doc-item ${selectedDocId===d.id?'selected':''}" onclick="selectDoc(${d.id})">
-      <div class="doc-thumb ${d.ext}">${d.ext.toUpperCase()}</div>
+}
+
+// ── Admin Pages ────────────────────────────
+function goPage(p) {
+  ['Dash','Upload','Docs','Report'].forEach(x => {
+    document.getElementById('pg'+x).style.display = x.toLowerCase()===p ? 'block' : 'none';
+  });
+  document.querySelectorAll('.nav-btn').forEach((b,i) => {
+    b.classList.toggle('on', i === ['dash','upload','docs','report'].indexOf(p));
+  });
+  if (p==='docs') renderDetail();
+  if (p==='report') renderReport();
+}
+
+function docSt(d) {
+  const n = d.readers.length, done = d.readers.filter(r=>r.read).length;
+  if (done===n && n>0) return 'complete';
+  if (done>0) return 'partial';
+  return 'pending';
+}
+function stLabel(s) { return {complete:'Tamamlandı',partial:'Kısmi',pending:'Bekliyor'}[s]||s; }
+
+function renderAdmin() {
+  const total=docs.length, done=docs.filter(d=>docSt(d)==='complete').length;
+  const partial=docs.filter(d=>docSt(d)==='partial').length, none=docs.filter(d=>docSt(d)==='pending').length;
+  document.getElementById('sTotal').textContent=total;
+  document.getElementById('sDone').textContent=done;
+  document.getElementById('sPartial').textContent=partial;
+  document.getElementById('sNone').textContent=none;
+  document.getElementById('navCnt').textContent=total;
+  renderDocList('dashList');
+  renderDocList('docsList');
+}
+
+function renderDocList(id) {
+  const el = document.getElementById(id);
+  if (!docs.length) { el.innerHTML='<div class="empty">Henüz belge yüklenmedi.</div>'; return; }
+  el.innerHTML = docs.map(d=>{
+    const done=d.readers.filter(r=>r.read).length, total=d.readers.length;
+    const pct=total?Math.round(done/total*100):0, st=docSt(d);
+    return `<div class="doc-row${selDocId===d.id?' sel':''}" onclick="selDoc(${d.id})">
+      <div class="doc-thumb ${extClass(d.ext)}">${d.ext.toUpperCase()}</div>
       <div class="doc-info">
-        <div class="doc-name">${d.name}</div>
-        <div class="doc-sub">${d.type} · ${done}/${total} onay · ${d.date}</div>
+        <div class="doc-name">${d.title}</div>
+        <div class="doc-meta">${d.type} · ${d.uploader} · ${d.date}</div>
       </div>
-      <span class="doc-badge ${d.status}">${badgeLabel(d.status)}</span>
+      <div class="doc-prog">
+        <div class="dp-txt">${done}/${total} okudu</div>
+        <div class="dp-bar"><div class="dp-fill" style="width:${pct}%"></div></div>
+      </div>
+      <span class="badge ${st}">${stLabel(st)}</span>
     </div>`;
   }).join('');
-
-  // Detail
-  if (selectedDocId) renderDetail();
 }
 
-function badgeLabel(s) {
-  return {approved:'Onaylandı', pending:'Beklemede', partial:'Kısmi', rejected:'Reddedildi'}[s]||s;
-}
-
-function selectDoc(id) {
-  selectedDocId = id;
-  render();
+function selDoc(id) {
+  selDocId = id;
+  renderDocList('docsList');
   renderDetail();
-  document.getElementById('detailPanel').classList.add('visible');
+  document.getElementById('detailPanel').style.display = 'block';
 }
 
 function renderDetail() {
-  const d = docs.find(x=>x.id===selectedDocId);
-  if (!d) return;
-  const done = d.approvers.filter(a=>a.status==='approved').length;
-  const total = d.approvers.length;
-  const pct = total ? Math.round(done/total*100) : 0;
-
-  document.getElementById('dFileName').textContent = d.name;
-  document.getElementById('dMeta').textContent = `${d.type} · Gönderen: ${d.requester} · ${d.date}`;
-  document.getElementById('dProgressLabel').textContent = `${done} / ${total} onay tamamlandı`;
-  document.getElementById('dProgressPct').textContent = pct + '%';
-  document.getElementById('dProgressFill').style.width = pct + '%';
-
-  document.getElementById('dApprovers').innerHTML = d.approvers.map(a => `
-    <div class="ap-row">
-      <div class="ap-avatar" style="background:${a.color}">${initials(a.name)}</div>
-      <div class="ap-info">
-        <div class="ap-name">${a.name}</div>
-        <div class="ap-date">${a.date ? a.date : 'Henüz yanıt vermedi'}</div>
-      </div>
-      <div class="ap-status ${a.status}">${{approved:'✓ Onayladı', pending:'⏳ Bekliyor', rejected:'✕ Reddetti'}[a.status]}</div>
-    </div>
-  `).join('');
-
-  // Actions — sadece "pending" olan belgede göster (benim onayım varsa)
-  const myApproval = d.approvers.find(a => a.email === CFG.ME_EMAIL && a.status === 'pending');
-  const acts = document.getElementById('dActions');
-  if (myApproval) {
-    acts.innerHTML = `
-      <button class="btn btn-approve" style="flex:1" onclick="openApprove(${d.id})">✓ Onayla</button>
-      <button class="btn btn-reject" style="flex:1" onclick="openReject(${d.id})">✕ Reddet</button>
-    `;
-  } else {
-    acts.innerHTML = '';
-  }
+  if (!selDocId) return;
+  const d = docs.find(x=>x.id===selDocId); if (!d) return;
+  const done=d.readers.filter(r=>r.read).length, total=d.readers.length;
+  const pct=total?Math.round(done/total*100):0;
+  const circ=138, offset=circ-(pct/100)*circ;
+  document.getElementById('dTitle').textContent=d.title;
+  document.getElementById('dMeta').textContent=`${d.type} · ${d.date}`;
+  document.getElementById('ringFill').style.strokeDashoffset=offset;
+  document.getElementById('ringPct').textContent=pct+'%';
+  document.getElementById('ringLabel').textContent=`${done} / ${total} Okudu`;
+  document.getElementById('ringSub').textContent=done===total?'✓ Herkes okudu':`${total-done} kişi henüz okumadı`;
+  document.getElementById('readerRows').innerHTML = d.readers.map(r=>`
+    <div class="reader-row">
+      <div class="r-av" style="background:${r.color}">${initials(r.name)}</div>
+      <div class="r-name">${r.name}<br><span style="font-size:0.65rem;color:var(--ink-muted);font-weight:400;">${r.dept}</span></div>
+      ${r.read
+        ? `<div><div class="r-ok yes">✓ OKUDU</div><div class="r-date">${r.readDate}</div></div>`
+        : `<div class="r-ok no">— BEKLİYOR</div>`}
+    </div>`).join('');
 }
 
-// ─── File Handling ────────────────────────
+function renderReport() {
+  const el = document.getElementById('reportBody');
+  if (!docs.length) { el.innerHTML='<div class="empty">Henüz veri yok.</div>'; return; }
+  el.innerHTML = `<table class="rtable">
+    <thead><tr>
+      <th>Belge</th><th>Tür</th><th>Toplam</th><th>Okudu</th><th>Oran</th><th>Durum</th>
+    </tr></thead>
+    <tbody>${docs.map(d=>{
+      const done=d.readers.filter(r=>r.read).length, total=d.readers.length;
+      const pct=total?Math.round(done/total*100):0, st=docSt(d);
+      return `<tr>
+        <td><strong>${d.title}</strong><br><span style="font-size:0.68rem;color:var(--ink-muted);">${d.filename}</span></td>
+        <td style="color:var(--ink-muted);">${d.type}</td>
+        <td style="text-align:center;">${total}</td>
+        <td style="text-align:center;color:var(--green);font-weight:700;">${done}</td>
+        <td>
+          <div style="display:flex;align-items:center;gap:7px;">
+            <div style="width:56px;height:4px;background:var(--border);border-radius:2px;overflow:hidden;">
+              <div style="width:${pct}%;height:100%;background:var(--green);border-radius:2px;"></div>
+            </div>
+            <span style="font-size:0.72rem;">${pct}%</span>
+          </div>
+        </td>
+        <td><span class="badge ${st}">${stLabel(st)}</span></td>
+      </tr>`;
+    }).join('')}</tbody>
+  </table>`;
+}
+
+// ── File ───────────────────────────────────
 function pickFile(e) {
-  const f = e.target.files[0];
-  if (!f) return;
+  const f = e.target.files[0]; if (!f) return;
   if (f.size > 20*1024*1024) { toast('Dosya 20 MB sınırını aşıyor.','err'); return; }
-  file = f;
-  const ext = f.name.split('.').pop().toLowerCase();
-  document.getElementById('fIconBox').textContent = ext.toUpperCase();
+  upFile = f;
+  const ex = ext(f.name);
+  document.getElementById('fExt').textContent = ex.toUpperCase();
   document.getElementById('fName').textContent = f.name;
   document.getElementById('fSize').textContent = (f.size/1024).toFixed(0) + ' KB';
-  document.getElementById('fileStrip').style.display = 'block';
-  document.getElementById('formPanel').style.display = 'block';
-  document.getElementById('dropZone').style.display = 'none';
+  document.getElementById('dz').style.display = 'none';
+  document.getElementById('formWrap').style.display = 'block';
   document.getElementById('fTitle').value = f.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' ');
-  // Ext ile tür tahmin et
-  const typeMap = {pdf:'Diğer', doc:'Diğer', docx:'Diğer', xls:'Rapor', xlsx:'Rapor', ppt:'Diğer', pptx:'Diğer'};
-  document.getElementById('fType').value = typeMap[ext] || 'Diğer';
 }
 
 function clearFile() {
-  file = null; selectedApprovers = [];
-  document.getElementById('fileIn').value = '';
-  document.getElementById('fileStrip').style.display = 'none';
-  document.getElementById('formPanel').style.display = 'none';
-  document.getElementById('dropZone').style.display = 'block';
-  document.getElementById('approverTags').innerHTML = '';
-  document.getElementById('approverSearch').value = '';
-  document.getElementById('approverHint').textContent = '';
-  document.getElementById('suggestions').classList.remove('open');
+  upFile = null; selReaders = [];
+  document.getElementById('fin').value = '';
+  document.getElementById('dz').style.display = 'block';
+  document.getElementById('formWrap').style.display = 'none';
+  document.getElementById('uTags').innerHTML = '';
+  document.getElementById('uSearch').value = '';
+  document.getElementById('uHint').textContent = '';
 }
 
 function setupDrop() {
-  const z = document.getElementById('dropZone');
-  z.addEventListener('dragover', e => { e.preventDefault(); z.classList.add('over'); });
-  z.addEventListener('dragleave', () => z.classList.remove('over'));
-  z.addEventListener('drop', e => {
+  const z = document.getElementById('dz'); if (!z) return;
+  z.addEventListener('dragover', e=>{e.preventDefault();z.classList.add('over');});
+  z.addEventListener('dragleave', ()=>z.classList.remove('over'));
+  z.addEventListener('drop', e=>{
     e.preventDefault(); z.classList.remove('over');
-    if (e.dataTransfer.files[0]) {
-      document.getElementById('fileIn').files = e.dataTransfer.files;
-      pickFile({ target: { files: e.dataTransfer.files } });
-    }
+    if (e.dataTransfer.files[0]) { document.getElementById('fin').files=e.dataTransfer.files; pickFile({target:{files:e.dataTransfer.files}}); }
   });
 }
 
-// ─── User Search ──────────────────────────
-function searchUsers(q) {
-  const box = document.getElementById('suggestions');
+// ── User search ────────────────────────────
+function searchU(q) {
+  const box = document.getElementById('uBox');
   const term = q.trim().toLowerCase();
-  const already = selectedApprovers.map(a=>a.email);
-  let results = CFG.USERS.filter(u =>
-    u.email !== CFG.ME_EMAIL &&
-    !already.includes(u.email) &&
-    (!term || u.name.toLowerCase().includes(term) || u.email.toLowerCase().includes(term) || u.dept.toLowerCase().includes(term))
-  );
-  if (!results.length) { box.classList.remove('open'); return; }
-  box.innerHTML = results.map(u => `
-    <div class="suggestion-item" onclick="addApprover('${u.email}')">
-      <div class="s-avatar" style="background:${u.color};color:white">${initials(u.name)}</div>
-      <div class="s-info">
-        <div class="s-name">${u.name} <span style="font-weight:400;color:var(--ink-muted)">· ${u.dept}</span></div>
-        <div class="s-email">${u.email}</div>
-      </div>
-    </div>
-  `).join('');
+  const already = selReaders.map(r=>r.email);
+  const res = CFG.USERS.filter(u=>u.role!=='admin'&&!already.includes(u.email)&&(!term||u.name.toLowerCase().includes(term)||u.dept.toLowerCase().includes(term)));
+  if (!res.length) { box.classList.remove('open'); return; }
+  box.innerHTML = res.map(u=>`
+    <div class="urow" onclick="addReader('${u.email}')">
+      <div class="uav" style="background:${u.color}">${initials(u.name)}</div>
+      <div><div class="un">${u.name}</div><div class="ud">${u.dept}</div></div>
+    </div>`).join('');
   box.classList.add('open');
 }
 
-function addApprover(email) {
+function addReader(email) {
   const u = CFG.USERS.find(x=>x.email===email);
-  if (!u || selectedApprovers.find(a=>a.email===email)) return;
-  selectedApprovers.push(u);
-  document.getElementById('approverSearch').value = '';
-  document.getElementById('suggestions').classList.remove('open');
+  if (!u||selReaders.find(r=>r.email===email)) return;
+  selReaders.push(u);
+  document.getElementById('uSearch').value = '';
+  document.getElementById('uBox').classList.remove('open');
   renderTags();
 }
-
-function removeApprover(email) {
-  selectedApprovers = selectedApprovers.filter(a=>a.email!==email);
-  renderTags();
-}
-
+function removeReader(email) { selReaders=selReaders.filter(r=>r.email!==email); renderTags(); }
 function renderTags() {
-  const wrap = document.getElementById('approverTags');
-  wrap.innerHTML = selectedApprovers.map(a => `
-    <div class="approver-tag">
-      <div class="tag-av" style="background:${a.color}">${initials(a.name)}</div>
-      <span class="tag-name">${a.name}</span>
-      <button class="tag-rm" onclick="removeApprover('${a.email}')">✕</button>
-    </div>
-  `).join('');
-  const n = selectedApprovers.length;
-  document.getElementById('approverHint').textContent =
-    n === 0 ? '' :
-    n === 1 ? '1 onaylayıcı seçildi — herkese aynı anda gönderilecek.' :
-    `${n} onaylayıcı seçildi — hepsine aynı anda gönderilecek.`;
+  document.getElementById('uTags').innerHTML = selReaders.map(u=>`
+    <div class="tag">
+      <div class="tag-av" style="background:${u.color}">${initials(u.name)}</div>
+      <span class="tag-n">${u.name}</span>
+      <button class="tag-x" onclick="removeReader('${u.email}')">✕</button>
+    </div>`).join('');
+  document.getElementById('uHint').textContent = selReaders.length ? `${selReaders.length} çalışan seçildi` : '';
 }
 
-// Dışarı tıklayınca kapat
-document.addEventListener('click', e => {
-  if (!e.target.closest('.approver-search-wrap'))
-    document.getElementById('suggestions').classList.remove('open');
-});
-
-// ─── Send ─────────────────────────────────
-async function sendApproval() {
-  const title = document.getElementById('fTitle').value.trim();
-  const type  = document.getElementById('fType').value;
-  const note  = document.getElementById('fNote').value.trim();
-
-  if (!file) { toast('Dosya seçilmedi.','err'); return; }
+// ── Send doc ───────────────────────────────
+async function sendDoc() {
+  const title=document.getElementById('fTitle').value.trim();
+  const type=document.getElementById('fType').value;
+  const desc=document.getElementById('fDesc').value.trim();
+  if (!upFile) { toast('Dosya seçilmedi.','err'); return; }
   if (!title) { toast('Başlık zorunludur.','err'); return; }
-  if (!selectedApprovers.length) { toast('En az bir onaylayıcı seçin.','err'); return; }
+  if (!selReaders.length) { toast('En az bir çalışan seçin.','err'); return; }
 
-  const btn = document.getElementById('sendBtn');
-  btn.disabled = true; btn.textContent = 'Gönderiliyor...';
+  const btn=document.getElementById('sendBtn');
+  btn.disabled=true; btn.textContent='Gönderiliyor...';
 
   try {
-    const b64 = await toB64(file);
-    const payload = {
-      fileName:   file.name,
-      fileContent: b64,
-      title, type, note,
-      requesterName:  CFG.ME_NAME,
-      requesterEmail: CFG.ME_EMAIL,
-      approvers: selectedApprovers.map(a=>({ name:a.name, email:a.email })),
-      submittedAt: new Date().toISOString(),
-      siteUrl: CFG.SITE_URL,
-      library: CFG.LIBRARY,
-    };
+    const b64 = await toB64(upFile);
+    // SharePoint linki (yüklenince oluşacak gerçek link)
+    const spUrl = `${CFG.SITE_URL}/${CFG.LIBRARY}/${encodeURIComponent(upFile.name)}`;
 
-    if (CFG.FLOW_URL !== "BURAYA_POWER_AUTOMATE_HTTP_TRIGGER_URL") {
-      await fetch(CFG.FLOW_URL, {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify(payload)
+    if (CFG.FLOW_UPLOAD_URL !== "BURAYA_FLOW1_URL") {
+      await fetch(CFG.FLOW_UPLOAD_URL, {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          fileName: upFile.name, fileContent: b64,
+          title, type, desc,
+          uploaderName: me.name, uploaderEmail: me.email,
+          readers: selReaders.map(r=>({name:r.name,email:r.email})),
+          sentAt: new Date().toISOString(),
+          siteUrl: CFG.SITE_URL, library: CFG.LIBRARY,
+        })
       });
     }
 
-    // Demo: listeye ekle
+    // Demo listeye ekle
     docs.unshift({
-      id: Date.now(),
-      name: file.name,
-      ext: file.name.split('.').pop().toLowerCase(),
-      type, status: 'pending',
-      requester: CFG.ME_NAME,
-      date: new Date().toLocaleString('tr-TR'),
-      note,
-      approvers: selectedApprovers.map(a=>({ ...a, status:'pending', date:null }))
+      id: Date.now(), title, type, desc,
+      filename: upFile.name, ext: ext(upFile.name),
+      uploader: me.name, date: now(),
+      spUrl,
+      readers: selReaders.map(r=>({...r, read:false, readDate:null}))
     });
 
-    render();
     clearFile();
-    toast(`✓ ${selectedApprovers.length} kişiye onay isteği gönderildi.`, 'ok');
+    renderAdmin();
+    goPage('docs');
+    selDoc(docs[0].id);
+    toast(`✓ Belge ${selReaders.length} çalışana gönderildi!`,'ok');
   } catch(err) {
-    toast('Hata: ' + err.message, 'err');
+    toast('Hata: '+err.message,'err');
   } finally {
-    btn.disabled = false; btn.textContent = 'Onaya Gönder →';
+    btn.disabled=false; btn.textContent='Çalışanlara Gönder →';
   }
 }
 
 function toB64(f) {
   return new Promise((res,rej)=>{
-    const r = new FileReader();
-    r.onload = ()=>res(r.result.split(',')[1]);
-    r.onerror = ()=>rej(new Error('Dosya okunamadı'));
+    const r=new FileReader();
+    r.onload=()=>res(r.result.split(',')[1]);
+    r.onerror=()=>rej(new Error('Dosya okunamadı'));
     r.readAsDataURL(f);
   });
 }
 
-// ─── Approve / Reject ─────────────────────
-function openApprove(id) {
-  actionDocId = id;
-  const d = docs.find(x=>x.id===id);
-  document.getElementById('approveDesc').textContent = `"${d.name}" belgesini onaylıyorsunuz.`;
-  document.getElementById('approveComment').value = '';
-  openOv('approveOv');
-}
-function openReject(id) {
-  actionDocId = id;
-  const d = docs.find(x=>x.id===id);
-  document.getElementById('rejectDesc').textContent = `"${d.name}" belgesini reddediyorsunuz.`;
-  document.getElementById('rejectComment').value = '';
-  openOv('rejectOv');
-}
+// ── Employee view ──────────────────────────
+function renderEmp() {
+  const myDocs = docs.filter(d=>d.readers.some(r=>r.email===me.email));
+  const pending = myDocs.filter(d=>{ const r=d.readers.find(x=>x.email===me.email); return r&&!r.read; });
 
-function doApprove() {
-  const d = docs.find(x=>x.id===actionDocId);
-  const a = d.approvers.find(a=>a.email===CFG.ME_EMAIL);
-  if (a) { a.status='approved'; a.date=new Date().toLocaleString('tr-TR'); }
-  updateDocStatus(d);
-  closeOv('approveOv');
-  render(); renderDetail();
-  toast('Belge onaylandı ✓','ok');
-}
+  const banner = document.getElementById('empBanner');
+  if (pending.length>0) {
+    banner.style.display='flex';
+    document.getElementById('empBannerTitle').textContent=`${pending.length} bekleyen belgeniz var`;
+  } else banner.style.display='none';
 
-function doReject() {
-  const comment = document.getElementById('rejectComment').value.trim();
-  if (!comment) { toast('Red nedeni zorunludur.','err'); return; }
-  const d = docs.find(x=>x.id===actionDocId);
-  const a = d.approvers.find(a=>a.email===CFG.ME_EMAIL);
-  if (a) { a.status='rejected'; a.date=new Date().toLocaleString('tr-TR'); }
-  d.status = 'rejected';
-  closeOv('rejectOv');
-  render(); renderDetail();
-  toast('Belge reddedildi.','err');
-}
+  const el = document.getElementById('empCards');
+  if (!myDocs.length) { el.innerHTML='<div class="empty">Size gönderilmiş belge bulunmuyor.</div>'; return; }
 
-function updateDocStatus(d) {
-  const all = d.approvers;
-  if (all.some(a=>a.status==='rejected'))       d.status = 'rejected';
-  else if (all.every(a=>a.status==='approved')) d.status = 'approved';
-  else if (all.some(a=>a.status==='approved'))  d.status = 'partial';
-  else                                           d.status = 'pending';
+  el.innerHTML = myDocs.map(d=>{
+    const me2=d.readers.find(r=>r.email===me.email);
+    const done=me2&&me2.read;
+    const ex=extClass(d.ext);
+    return `<div class="ecard${done?' done':''}">
+      <div class="ecard-head">
+        <div class="doc-thumb ${ex}" style="width:36px;height:42px;">${d.ext.toUpperCase()}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:0.88rem;font-weight:700;">${d.title}</div>
+          <div style="font-size:0.7rem;color:var(--ink-muted);margin-top:2px;">${d.type} · Gönderen: ${d.uploader}</div>
+        </div>
+        <span class="badge ${done?'complete':'unread'}">${done?'Okundu':'Okunmadı'}</span>
+      </div>
+      <div class="ecard-body">
+        ${d.desc?`<div class="ecard-desc">${d.desc}</div>`:''}
+        <div class="ecard-meta">
+          <div class="ecard-meta-item">📅 ${d.date}</div>
+          <div class="ecard-meta-item">📄 ${d.filename}</div>
+        </div>
+        <button class="open-btn" onclick="openDoc('${d.spUrl}','${d.ext}')">
+          🔗 Belgeyi Aç ${d.ext==='pdf'?'(PDF Görüntüleyici)':'(Office Online)'}
+        </button>
+        ${done
+          ? `<div class="read-done">✓ ${me2.readDate} tarihinde okudunuz ve onayladınız.</div>`
+          : `<button class="btn btn-green" onclick="openConfirm(${d.id})">✓ Okudum, Anladım</button>`}
+      </div>
+    </div>`;
+  }).join('');
 }
 
-// ─── Overlays ─────────────────────────────
-function openOv(id) { document.getElementById(id).classList.add('on'); }
-function closeOv(id) { document.getElementById(id).classList.remove('on'); }
-document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{ if(e.target===o) o.classList.remove('on'); }));
+function openDoc(url, fileExt) {
+  if (fileExt === 'pdf') {
+    // PDF için tarayıcı görüntüleyici
+    window.open(url, '_blank');
+  } else {
+    // Word/Excel/PPT için Office Online görüntüleyici
+    const officeUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(url)}`;
+    window.open(officeUrl, '_blank');
+  }
+}
 
-// ─── Toast ────────────────────────────────
+// ── Confirm ────────────────────────────────
+function openConfirm(id) {
+  confirmId=id; checked=false;
+  document.getElementById('chkBox').classList.remove('on');
+  document.getElementById('confirmBtn').disabled=true;
+  const d=docs.find(x=>x.id===id);
+  document.getElementById('mExt').textContent=d.ext.toUpperCase();
+  document.getElementById('mName').textContent=d.title;
+  document.getElementById('mSub').textContent=`${d.type} · ${d.filename}`;
+  document.getElementById('confirmOv').classList.add('on');
+}
+
+function toggleChk() {
+  checked=!checked;
+  document.getElementById('chkBox').classList.toggle('on',checked);
+  document.getElementById('chkBox').textContent=checked?'✓':'';
+  document.getElementById('confirmBtn').disabled=!checked;
+}
+
+async function doConfirm() {
+  const d=docs.find(x=>x.id===confirmId);
+  const reader=d.readers.find(r=>r.email===me.email);
+  const readDate=now();
+
+  // Flow 2 — Okuma kaydı gönder
+  if (CFG.FLOW_READ_URL !== "BURAYA_FLOW2_URL") {
+    try {
+      await fetch(CFG.FLOW_READ_URL, {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          docId: String(d.id),
+          docName: d.title,
+          docUrl: d.spUrl,
+          readerName: me.name,
+          readerEmail: me.email,
+          readDate: new Date().toISOString(),
+        })
+      });
+    } catch(e) { console.error('Flow 2 hatası:', e); }
+  }
+
+  if (reader) { reader.read=true; reader.readDate=readDate; }
+  closeOv();
+  renderEmp();
+  renderAdmin();
+  toast('✓ Onayınız kaydedildi ve yöneticinize bildirildi!','ok');
+}
+
+function closeOv() { document.getElementById('confirmOv').classList.remove('on'); }
+document.addEventListener('click', e=>{ if(e.target.classList.contains('ov')) closeOv(); });
+
+// ── Toast ──────────────────────────────────
 function toast(msg, type='info') {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = `toast show ${type}`;
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className=`toast show ${type}`;
   clearTimeout(t._t);
-  t._t = setTimeout(()=>t.classList.remove('show'), 3500);
+  t._t=setTimeout(()=>t.classList.remove('show'),3500);
 }
 </script>
 </body>
