@@ -4,652 +4,362 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Belge Okuma Sistemi</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #f7f6f3;
-  --surface: #ffffff;
-  --surface2: #f0eff9;
-  --border: #e8e6e1;
-  --border2: #d8d5ce;
-  --ink: #1c1a17;
-  --ink-soft: #6b6760;
-  --ink-muted: #a8a49f;
-  --violet: #4f3dff;
-  --violet-light: #eeecff;
-  --violet-border: rgba(79,61,255,0.2);
-  --green: #16a34a;
-  --green-light: #f0fdf4;
-  --green-border: rgba(22,163,74,0.2);
-  --amber: #d97706;
-  --amber-light: #fffbeb;
-  --amber-border: rgba(217,119,6,0.2);
-  --red: #dc2626;
-  --red-light: #fef2f2;
-  --red-border: rgba(220,38,38,0.2);
-  --r: 14px;
-  --r-sm: 8px;
-  --shadow: 0 2px 12px rgba(0,0,0,0.06);
-  --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+  --bg:#f7f6f3;--surface:#fff;--surface2:#f0eff9;--border:#e8e6e1;--border2:#d8d5ce;
+  --ink:#1c1a17;--soft:#6b6760;--muted:#a8a49f;
+  --v:#4f3dff;--vl:#eeecff;--vb:rgba(79,61,255,.18);
+  --g:#16a34a;--gl:#f0fdf4;--gb:rgba(22,163,74,.18);
+  --a:#d97706;--al:#fffbeb;--ab:rgba(217,119,6,.18);
+  --r:#dc2626;--rl:#fef2f2;--rb:rgba(220,38,38,.18);
+  --rad:12px;--rads:7px;
+  --sh:0 2px 12px rgba(0,0,0,.06);--shl:0 8px 40px rgba(0,0,0,.12);
 }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* Role bar */
+.rbar{background:var(--v);padding:8px 20px;display:flex;align-items:center;justify-content:space-between;}
+.rbar-txt{font-size:.72rem;color:rgba(255,255,255,.75);}
+.rtabs{display:flex;gap:4px;}
+.rtab{padding:4px 14px;border-radius:20px;font-size:.72rem;font-weight:600;cursor:pointer;border:none;background:rgba(255,255,255,.15);color:#fff;transition:all .2s;font-family:'Outfit',sans-serif;}
+.rtab.on{background:#fff;color:var(--v);}
 
-body {
-  font-family: 'Outfit', sans-serif;
-  background: var(--bg);
-  color: var(--ink);
-  min-height: 100vh;
-  font-size: 15px;
-}
+/* Topbar */
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:58px;gap:14px;}
+.brand{display:flex;align-items:center;gap:11px;flex:1;}
+.brand-ico{width:34px;height:34px;background:var(--v);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.95rem;}
+.brand-name{font-size:.9rem;font-weight:700;letter-spacing:-.02em;}
+.brand-sub{font-size:.65rem;color:var(--muted);}
+.tuser{display:flex;align-items:center;gap:7px;background:var(--bg);border:1px solid var(--border);border-radius:40px;padding:4px 11px 4px 4px;}
+.tav{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;color:#fff;flex-shrink:0;}
+.tname{font-size:.75rem;font-weight:500;}
+.tbadge{font-size:.6rem;font-weight:600;padding:2px 6px;border-radius:20px;background:var(--vl);color:var(--v);}
 
-/* ── Role Bar ── */
-.role-bar {
-  background: var(--violet);
-  padding: 8px 24px;
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 12px;
-}
-.role-bar-text { font-size: 0.75rem; color: rgba(255,255,255,0.8); }
-.role-tabs { display: flex; gap: 4px; }
-.role-btn {
-  padding: 4px 14px; border-radius: 20px;
-  font-size: 0.72rem; font-weight: 600;
-  cursor: pointer; border: none;
-  background: rgba(255,255,255,0.15);
-  color: white; transition: all 0.2s;
-  font-family: 'Outfit', sans-serif;
-}
-.role-btn.on { background: white; color: var(--violet); }
+/* Layout */
+.shell{display:flex;min-height:calc(100vh - 92px);}
+.sidebar{width:196px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);padding:14px 8px;}
+.nsec{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding:0 8px;margin:12px 0 4px;}
+.nbtn{display:flex;align-items:center;gap:8px;width:100%;padding:7px 9px;border-radius:var(--rads);border:none;background:transparent;cursor:pointer;font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:400;color:var(--soft);text-align:left;transition:all .15s;margin-bottom:1px;}
+.nbtn:hover{background:var(--bg);color:var(--ink);}
+.nbtn.on{background:var(--vl);color:var(--v);font-weight:600;}
+.nbtn .ico{font-size:.8rem;width:15px;text-align:center;}
+.ncnt{margin-left:auto;background:var(--v);color:#fff;font-size:.58rem;font-weight:700;min-width:16px;height:16px;border-radius:20px;display:flex;align-items:center;justify-content:center;padding:0 3px;}
 
-/* ── Top Bar ── */
-.topbar {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  padding: 0 28px;
-  display: flex; align-items: center;
-  height: 60px; gap: 16px;
-}
-.brand { display: flex; align-items: center; gap: 12px; flex: 1; }
-.brand-icon {
-  width: 36px; height: 36px;
-  background: var(--violet);
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1rem;
-}
-.brand-name { font-size: 0.95rem; font-weight: 700; letter-spacing: -0.02em; }
-.brand-sub { font-size: 0.7rem; color: var(--ink-muted); }
-.topbar-user {
-  display: flex; align-items: center; gap: 8px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 40px;
-  padding: 5px 12px 5px 5px;
-}
-.t-av {
-  width: 26px; height: 26px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.62rem; font-weight: 700; color: white;
-}
-.t-name { font-size: 0.78rem; font-weight: 500; }
-.t-badge {
-  font-size: 0.62rem; font-weight: 600;
-  padding: 2px 7px; border-radius: 20px;
-  background: var(--violet-light); color: var(--violet);
-}
+/* Main */
+.main{flex:1;padding:22px 26px;overflow-y:auto;}
+.pgh{margin-bottom:18px;}
+.pgt{font-size:1.35rem;font-weight:800;letter-spacing:-.03em;}
+.pgs{font-size:.75rem;color:var(--muted);margin-top:2px;}
 
-/* ── Layout ── */
-.shell { display: flex; min-height: calc(100vh - 96px); }
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px;}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--rad);padding:14px 16px;}
+.stat-n{font-size:1.9rem;font-weight:800;letter-spacing:-.04em;line-height:1;}
+.stat-n.v{color:var(--v)}.stat-n.g{color:var(--g)}.stat-n.a{color:var(--a)}.stat-n.r{color:var(--r)}
+.stat-l{font-size:.68rem;color:var(--muted);margin-top:3px;font-weight:500;}
 
-/* ── Sidebar ── */
-.sidebar {
-  width: 200px; flex-shrink: 0;
-  background: var(--surface);
-  border-right: 1px solid var(--border);
-  padding: 16px 10px;
-}
-.nav-section { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-muted); padding: 0 8px; margin: 14px 0 5px; }
-.nav-btn {
-  display: flex; align-items: center; gap: 9px;
-  width: 100%; padding: 8px 10px;
-  border-radius: var(--r-sm); border: none;
-  background: transparent; cursor: pointer;
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.82rem; font-weight: 400;
-  color: var(--ink-soft); text-align: left;
-  transition: all 0.15s; margin-bottom: 1px;
-}
-.nav-btn:hover { background: var(--bg); color: var(--ink); }
-.nav-btn.on { background: var(--violet-light); color: var(--violet); font-weight: 600; }
-.nav-btn .ico { font-size: 0.85rem; width: 16px; text-align: center; }
-.nav-count {
-  margin-left: auto;
-  background: var(--violet); color: white;
-  font-size: 0.6rem; font-weight: 700;
-  min-width: 17px; height: 17px; border-radius: 20px;
-  display: flex; align-items: center; justify-content: center;
-  padding: 0 4px;
-}
+/* Card */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rad);overflow:hidden;box-shadow:var(--sh);margin-bottom:14px;}
+.card-head{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.card-title{font-size:.82rem;font-weight:700;}
+.card-body{padding:16px;}
 
-/* ── Main ── */
-.main { flex: 1; padding: 24px 28px; overflow-y: auto; }
+/* Dropzone */
+.dz{border:2px dashed var(--border2);border-radius:var(--rad);padding:32px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg);}
+.dz:hover,.dz.over{border-color:var(--v);background:var(--vl);}
+.dz input{display:none;}
+.dz-ico{font-size:1.8rem;margin-bottom:8px;}
+.dz-t{font-size:.85rem;font-weight:700;}
+.dz-s{font-size:.7rem;color:var(--muted);margin-top:3px;}
 
-/* ── Page Header ── */
-.pg-head { margin-bottom: 20px; }
-.pg-title { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.03em; }
-.pg-sub { font-size: 0.8rem; color: var(--ink-muted); margin-top: 2px; }
+/* File strip */
+.fstrip{display:flex;align-items:center;gap:11px;background:var(--vl);border:1px solid var(--vb);border-radius:var(--rads);padding:9px 13px;margin-bottom:13px;}
+.fext{width:30px;height:36px;border-radius:5px;background:var(--v);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.52rem;font-weight:700;color:#fff;flex-shrink:0;position:relative;overflow:hidden;}
+.fext::after{content:'';position:absolute;top:0;right:0;border-left:6px solid var(--vl);border-bottom:6px solid transparent;}
+.finfo{flex:1;min-width:0;}
+.fname{font-size:.8rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--v);}
+.fsize{font-size:.65rem;color:var(--muted);}
+.frm{background:transparent;border:none;cursor:pointer;color:var(--muted);font-size:.9rem;padding:3px;border-radius:4px;transition:all .15s;}
+.frm:hover{color:var(--r);background:var(--rl);}
 
-/* ── Stats ── */
-.stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 20px; }
-.stat {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 16px 18px;
-  transition: box-shadow 0.2s;
-}
-.stat:hover { box-shadow: var(--shadow); }
-.stat-val { font-size: 2rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
-.stat-val.v { color: var(--violet); }
-.stat-val.g { color: var(--green); }
-.stat-val.a { color: var(--amber); }
-.stat-val.r { color: var(--red); }
-.stat-lbl { font-size: 0.72rem; color: var(--ink-muted); margin-top: 4px; font-weight: 500; }
+/* Form */
+.fg{display:grid;gap:11px;margin-bottom:11px;}
+.fg2{grid-template-columns:1fr 1fr;}
+.fg1{grid-template-columns:1fr;}
+.fl label{display:block;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:4px;}
+.fl input,.fl select,.fl textarea{width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--rads);font-family:'Outfit',sans-serif;font-size:.82rem;color:var(--ink);background:var(--surface);outline:none;transition:border-color .15s,box-shadow .15s;}
+.fl input:focus,.fl select:focus,.fl textarea:focus{border-color:var(--v);box-shadow:0 0 0 3px var(--vl);}
+.fl textarea{resize:vertical;min-height:68px;}
 
-/* ── Card ── */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  margin-bottom: 16px;
-}
-.card-head {
-  padding: 14px 18px;
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-}
-.card-title { font-size: 0.85rem; font-weight: 700; }
-.card-body { padding: 18px; }
+/* User search */
+.usw{position:relative;}
+.ubox{position:absolute;top:calc(100% + 3px);left:0;right:0;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--rads);box-shadow:var(--shl);z-index:60;max-height:180px;overflow-y:auto;display:none;}
+.ubox.open{display:block;}
+.urow{display:flex;align-items:center;gap:9px;padding:8px 11px;cursor:pointer;transition:background .12s;}
+.urow:hover{background:var(--bg);}
+.uav{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;color:#fff;flex-shrink:0;}
+.un{font-size:.78rem;font-weight:600;}
+.ud{font-size:.65rem;color:var(--muted);}
 
-/* ── Upload ── */
-.dropzone {
-  border: 2px dashed var(--border2);
-  border-radius: var(--r);
-  padding: 36px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s;
-  background: var(--bg);
-}
-.dropzone:hover, .dropzone.over { border-color: var(--violet); background: var(--violet-light); }
-.dropzone input { display: none; }
-.dz-ico { font-size: 2rem; margin-bottom: 10px; }
-.dz-title { font-size: 0.9rem; font-weight: 700; }
-.dz-sub { font-size: 0.72rem; color: var(--ink-muted); margin-top: 4px; }
+/* Tags */
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+.tag{display:flex;align-items:center;gap:5px;background:var(--vl);border:1px solid var(--vb);border-radius:20px;padding:2px 8px 2px 4px;font-size:.7rem;animation:tagpop .18s ease;}
+@keyframes tagpop{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+.tav2{width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.46rem;font-weight:700;color:#fff;}
+.tn{color:var(--v);font-weight:600;}
+.tx{background:transparent;border:none;cursor:pointer;color:var(--muted);font-size:.68rem;padding:0;transition:color .12s;}
+.tx:hover{color:var(--r);}
 
-/* ── File strip ── */
-.fstrip {
-  display: flex; align-items: center; gap: 12px;
-  background: var(--violet-light);
-  border: 1px solid var(--violet-border);
-  border-radius: var(--r-sm);
-  padding: 10px 14px;
-  margin-bottom: 14px;
-}
-.fstrip-ext {
-  width: 32px; height: 38px;
-  border-radius: 6px; background: var(--violet);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.58rem; font-weight: 800; color: white;
-  font-family: 'JetBrains Mono', monospace;
-  flex-shrink: 0; position: relative; overflow: hidden;
-}
-.fstrip-ext::after { content:''; position:absolute; top:0; right:0; border-left:7px solid var(--violet-light); border-bottom:7px solid transparent; }
-.fstrip-info { flex: 1; min-width: 0; }
-.fstrip-name { font-size: 0.82rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--violet); }
-.fstrip-size { font-size: 0.68rem; color: var(--ink-muted); }
-.fstrip-rm { background: transparent; border: none; cursor: pointer; color: var(--ink-muted); font-size: 1rem; padding: 4px; border-radius: 4px; transition: all 0.15s; }
-.fstrip-rm:hover { color: var(--red); background: var(--red-light); }
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 18px;border-radius:var(--rads);font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;border:none;transition:all .18s;}
+.btn-v{background:var(--v);color:#fff;}
+.btn-v:hover{background:#3d2dd4;transform:translateY(-1px);box-shadow:0 4px 14px rgba(79,61,255,.3);}
+.btn-v:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-ghost{background:transparent;color:var(--soft);border:1px solid var(--border);}
+.btn-ghost:hover{border-color:var(--soft);color:var(--ink);}
+.btn-g{background:var(--g);color:#fff;width:100%;padding:11px;font-size:.85rem;}
+.btn-g:hover{background:#15803d;transform:translateY(-1px);box-shadow:0 4px 14px rgba(22,163,74,.3);}
+.btn-g:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none;}
 
-/* ── Form ── */
-.fg { display: grid; gap: 12px; margin-bottom: 12px; }
-.fg-2 { grid-template-columns: 1fr 1fr; }
-.fg-1 { grid-template-columns: 1fr; }
-.fl label { display: block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-muted); margin-bottom: 5px; }
-.fl input, .fl select, .fl textarea {
-  width: 100%; padding: 9px 11px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-sm);
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.85rem; color: var(--ink);
-  background: var(--surface);
-  outline: none; transition: border-color 0.15s, box-shadow 0.15s;
-}
-.fl input:focus, .fl select:focus, .fl textarea:focus {
-  border-color: var(--violet);
-  box-shadow: 0 0 0 3px var(--violet-light);
-}
-.fl textarea { resize: vertical; min-height: 72px; }
+/* Doc list */
+.doclist{display:flex;flex-direction:column;}
+.drow{display:flex;align-items:center;gap:13px;padding:12px 15px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;}
+.drow:last-child{border-bottom:none;}
+.drow:hover{background:var(--bg);}
+.drow.sel{background:var(--vl);}
+.dthumb{width:34px;height:40px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.52rem;font-weight:700;flex-shrink:0;position:relative;overflow:hidden;}
+.dthumb::after{content:'';position:absolute;top:0;right:0;border-left:7px solid rgba(255,255,255,.5);border-bottom:7px solid transparent;}
+.dthumb.pdf{background:#fee2e2;color:#b91c1c;}
+.dthumb.docx,.dthumb.doc{background:#dbeafe;color:#1d4ed8;}
+.dthumb.xlsx,.dthumb.xls{background:#dcfce7;color:#15803d;}
+.dthumb.pptx,.dthumb.ppt{background:#ffedd5;color:#c2410c;}
+.dthumb.def{background:#f3f4f6;color:#6b7280;}
+.dinfo{flex:1;min-width:0;}
+.dname{font-size:.82rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.dmeta{font-size:.67rem;color:var(--muted);margin-top:1px;}
+.dprog{flex-shrink:0;text-align:right;}
+.dpbar{width:68px;height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:4px;}
+.dpfill{height:100%;background:var(--g);border-radius:2px;transition:width .4s;}
+.dptxt{font-size:.65rem;color:var(--muted);}
 
-/* ── User search ── */
-.usearch { position: relative; }
-.ubox {
-  position: absolute; top: calc(100%+4px); left: 0; right: 0;
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-sm);
-  box-shadow: var(--shadow-lg);
-  z-index: 60; max-height: 190px; overflow-y: auto;
-  display: none;
-}
-.ubox.open { display: block; }
-.urow {
-  display: flex; align-items: center; gap: 10px;
-  padding: 9px 12px; cursor: pointer;
-  transition: background 0.12s;
-}
-.urow:hover { background: var(--bg); }
-.uav { width: 26px; height: 26px; border-radius: 50%; display:flex; align-items:center; justify-content:center; font-size:0.58rem; font-weight:700; color:white; flex-shrink:0; }
-.un { font-size: 0.8rem; font-weight: 600; }
-.ud { font-size: 0.68rem; color: var(--ink-muted); }
+/* Badge */
+.badge{padding:2px 8px;border-radius:20px;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;flex-shrink:0;}
+.badge.complete{background:var(--gl);color:var(--g);border:1px solid var(--gb);}
+.badge.partial{background:var(--al);color:var(--a);border:1px solid var(--ab);}
+.badge.pending{background:var(--vl);color:var(--v);border:1px solid var(--vb);}
+.badge.unread{background:var(--rl);color:var(--r);border:1px solid var(--rb);}
 
-/* ── Tags ── */
-.tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
-.tag {
-  display: flex; align-items: center; gap: 5px;
-  background: var(--violet-light);
-  border: 1px solid var(--violet-border);
-  border-radius: 20px; padding: 3px 9px 3px 4px;
-  font-size: 0.72rem; animation: tagpop 0.18s ease;
-}
-@keyframes tagpop { from{opacity:0;transform:scale(0.8)} to{opacity:1;transform:scale(1)} }
-.tag-av { width: 16px; height: 16px; border-radius: 50%; display:flex; align-items:center; justify-content:center; font-size:0.48rem; font-weight:700; color:white; }
-.tag-n { color: var(--violet); font-weight: 600; }
-.tag-x { background:transparent; border:none; cursor:pointer; color:var(--ink-muted); font-size:0.7rem; padding:0; transition:color 0.12s; }
-.tag-x:hover { color: var(--red); }
+/* Two col */
+.twocol{display:grid;grid-template-columns:1fr 300px;gap:14px;align-items:start;}
 
-/* ── Buttons ── */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  padding: 9px 20px; border-radius: var(--r-sm);
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.83rem; font-weight: 600;
-  cursor: pointer; border: none; transition: all 0.18s;
-}
-.btn-v { background: var(--violet); color: white; }
-.btn-v:hover { background: #3d2dd4; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(79,61,255,0.3); }
-.btn-v:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
-.btn-ghost { background: transparent; color: var(--ink-soft); border: 1px solid var(--border); }
-.btn-ghost:hover { border-color: var(--ink-soft); color: var(--ink); }
-.btn-green { background: var(--green); color: white; width: 100%; padding: 12px; font-size: 0.9rem; }
-.btn-green:hover { background: #15803d; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(22,163,74,0.3); }
-.btn-green:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
-.btn-outline { background: transparent; color: var(--violet); border: 1.5px solid var(--violet-border); }
-.btn-outline:hover { background: var(--violet-light); }
+/* Detail */
+.detail{background:var(--surface);border:1px solid var(--border);border-radius:var(--rad);overflow:hidden;box-shadow:var(--sh);position:sticky;top:0;}
+.dhead{padding:12px 15px;border-bottom:1px solid var(--border);background:var(--bg);}
+.dtitle{font-size:.85rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.dmeta2{font-size:.65rem;color:var(--muted);margin-top:2px;}
+.dbody{padding:13px 15px;}
+.slbl{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:8px;}
 
-/* ── Doc list ── */
-.doc-list { display: flex; flex-direction: column; }
-.doc-row {
-  display: flex; align-items: center; gap: 14px;
-  padding: 13px 16px;
-  border-bottom: 1px solid var(--border);
-  cursor: pointer; transition: background 0.12s;
-}
-.doc-row:last-child { border-bottom: none; }
-.doc-row:hover { background: var(--bg); }
-.doc-row.sel { background: var(--violet-light); }
-.doc-thumb {
-  width: 36px; height: 42px; border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.55rem; font-weight: 700;
-  flex-shrink: 0; position: relative; overflow: hidden;
-}
-.doc-thumb::after { content:''; position:absolute; top:0; right:0; border-left:8px solid rgba(255,255,255,0.5); border-bottom:8px solid transparent; }
-.doc-thumb.pdf { background: #fee2e2; color: #b91c1c; }
-.doc-thumb.docx, .doc-thumb.doc { background: #dbeafe; color: #1d4ed8; }
-.doc-thumb.xlsx, .doc-thumb.xls { background: #dcfce7; color: #15803d; }
-.doc-thumb.pptx, .doc-thumb.ppt { background: #ffedd5; color: #c2410c; }
-.doc-thumb.def { background: #f3f4f6; color: #6b7280; }
-.doc-info { flex: 1; min-width: 0; }
-.doc-name { font-size: 0.85rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.doc-meta { font-size: 0.7rem; color: var(--ink-muted); margin-top: 2px; }
-.doc-prog { flex-shrink: 0; }
-.dp-bar { width: 72px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-top: 5px; }
-.dp-fill { height: 100%; background: var(--green); border-radius: 2px; transition: width 0.4s; }
-.dp-txt { font-size: 0.68rem; color: var(--ink-muted); text-align: right; }
+/* Ring */
+.ringwrap{display:flex;align-items:center;gap:11px;margin-bottom:13px;}
+.ring{position:relative;width:52px;height:52px;flex-shrink:0;}
+.ring svg{transform:rotate(-90deg);}
+.ring circle{fill:none;stroke-width:5;}
+.ring-bg{stroke:var(--border);}
+.ring-fill{stroke:var(--g);stroke-linecap:round;transition:stroke-dashoffset .6s cubic-bezier(.34,1.56,.64,1);}
+.ring-txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;}
+.rinfo h4{font-size:.85rem;font-weight:700;}
+.rinfo p{font-size:.68rem;color:var(--muted);margin-top:2px;}
 
-/* ── Badge ── */
-.badge {
-  padding: 3px 9px; border-radius: 20px;
-  font-size: 0.65rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.05em;
-  flex-shrink: 0;
-}
-.badge.complete { background: var(--green-light); color: var(--green); border: 1px solid var(--green-border); }
-.badge.partial { background: var(--amber-light); color: var(--amber); border: 1px solid var(--amber-border); }
-.badge.pending { background: var(--violet-light); color: var(--violet); border: 1px solid var(--violet-border); }
-.badge.unread { background: var(--red-light); color: var(--red); border: 1px solid var(--red-border); }
+.rrow{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--rads);border:1px solid var(--border);background:var(--bg);margin-bottom:4px;}
+.rav{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;color:#fff;flex-shrink:0;}
+.rname{font-size:.75rem;font-weight:600;flex:1;}
+.rdate{font-size:.62rem;color:var(--muted);}
+.rok{font-size:.62rem;font-weight:700;flex-shrink:0;}
+.rok.yes{color:var(--g)}.rok.no{color:var(--muted);}
 
-/* ── Two col ── */
-.two-col { display: grid; grid-template-columns: 1fr 320px; gap: 16px; align-items: start; }
+/* Report */
+.rtbl{width:100%;border-collapse:collapse;font-size:.78rem;}
+.rtbl th{text-align:left;padding:7px 11px;font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);border-bottom:1px solid var(--border);font-weight:600;}
+.rtbl td{padding:9px 11px;border-bottom:1px solid var(--border);}
+.rtbl tr:last-child td{border-bottom:none;}
 
-/* ── Detail ── */
-.detail {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  position: sticky; top: 0;
-}
-.detail-head { padding: 14px 16px; border-bottom: 1px solid var(--border); background: var(--bg); }
-.detail-title { font-size: 0.88rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.detail-meta { font-size: 0.68rem; color: var(--ink-muted); margin-top: 2px; }
-.detail-body { padding: 14px 16px; }
+/* Employee */
+.emp-main{padding:20px 24px;}
+.emp-welcome{margin-bottom:16px;padding:18px 22px;background:linear-gradient(135deg,var(--v) 0%,#6d28d9 100%);border-radius:var(--rad);color:#fff;}
+.emp-welcome h2{font-size:1.2rem;font-weight:800;letter-spacing:-.02em;}
+.emp-welcome p{font-size:.75rem;opacity:.85;margin-top:3px;}
+.emp-banner{display:flex;align-items:center;gap:11px;background:var(--al);border:1px solid var(--ab);border-radius:var(--rads);padding:11px 15px;margin-bottom:14px;}
+.emp-banner h4{font-size:.8rem;font-weight:700;color:var(--a);}
+.emp-banner p{font-size:.68rem;color:var(--soft);margin-top:1px;}
 
-/* ── Progress ring ── */
-.ring-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-.ring { position: relative; width: 54px; height: 54px; flex-shrink: 0; }
-.ring svg { transform: rotate(-90deg); }
-.ring circle { fill: none; stroke-width: 5; }
-.ring-bg { stroke: var(--border); }
-.ring-fill { stroke: var(--green); stroke-linecap: round; transition: stroke-dashoffset 0.6s cubic-bezier(0.34,1.56,0.64,1); }
-.ring-txt { position: absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:0.78rem; font-weight:800; }
-.ring-info h4 { font-size:0.88rem; font-weight:700; }
-.ring-info p { font-size:0.7rem; color:var(--ink-muted); margin-top:2px; }
+/* Employee card */
+.ecard{background:var(--surface);border:1px solid var(--border);border-radius:var(--rad);overflow:hidden;margin-bottom:11px;box-shadow:var(--sh);transition:border-color .2s;}
+.ecard.done{border-color:var(--gb);}
+.ecard-head{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:11px;}
+.ecard-body{padding:13px 16px;}
+.ecard-desc{font-size:.78rem;color:var(--soft);margin-bottom:11px;line-height:1.5;}
+.ecard-meta{display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap;}
+.ecard-mi{font-size:.68rem;color:var(--muted);display:flex;align-items:center;gap:4px;}
+.read-done{display:flex;align-items:center;gap:7px;padding:9px 13px;background:var(--gl);border:1px solid var(--gb);border-radius:var(--rads);font-size:.75rem;color:var(--g);font-weight:600;}
+.open-btn{display:flex;align-items:center;gap:6px;padding:7px 13px;background:var(--bg);border:1px solid var(--border);border-radius:var(--rads);font-size:.72rem;font-weight:600;cursor:pointer;color:var(--soft);font-family:'Outfit',sans-serif;transition:all .15s;margin-bottom:9px;width:fit-content;text-decoration:none;}
+.open-btn:hover{border-color:var(--v);color:var(--v);background:var(--vl);}
 
-.reader-row {
-  display: flex; align-items: center; gap: 9px;
-  padding: 9px 10px; border-radius: var(--r-sm);
-  border: 1px solid var(--border);
-  background: var(--bg); margin-bottom: 5px;
-}
-.r-av { width: 28px; height: 28px; border-radius: 50%; display:flex; align-items:center; justify-content:center; font-size:0.58rem; font-weight:700; color:white; flex-shrink:0; }
-.r-name { font-size:0.78rem; font-weight:600; flex:1; }
-.r-date { font-size:0.65rem; color:var(--ink-muted); }
-.r-ok { font-size:0.65rem; font-weight:700; flex-shrink:0; }
-.r-ok.yes { color: var(--green); }
-.r-ok.no { color: var(--ink-muted); }
+/* Modal */
+.ov{position:fixed;inset:0;background:rgba(28,26,23,.5);backdrop-filter:blur(6px);z-index:100;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;}
+.ov.on{opacity:1;pointer-events:all;}
+.modal{background:var(--surface);border-radius:16px;padding:26px;width:400px;max-width:95vw;box-shadow:var(--shl);transform:translateY(14px) scale(.97);transition:transform .24s cubic-bezier(.34,1.56,.64,1);}
+.ov.on .modal{transform:none;}
+.modal-ico{font-size:1.7rem;margin-bottom:9px;}
+.modal h2{font-size:1.1rem;font-weight:800;letter-spacing:-.02em;margin-bottom:4px;}
+.modal p{font-size:.77rem;color:var(--soft);margin-bottom:14px;line-height:1.5;}
+.modal-doc{background:var(--bg);border:1px solid var(--border);border-radius:var(--rads);padding:10px 12px;display:flex;align-items:center;gap:9px;margin-bottom:14px;}
+.modal-ext{width:28px;height:28px;border-radius:5px;background:var(--v);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#fff;font-weight:700;}
+.modal-dname{font-size:.78rem;font-weight:700;}
+.modal-dsub{font-size:.65rem;color:var(--muted);}
+.chkrow{display:flex;align-items:flex-start;gap:9px;background:var(--gl);border:1px solid var(--gb);border-radius:var(--rads);padding:10px 12px;margin-bottom:14px;cursor:pointer;}
+.chk{width:17px;height:17px;border-radius:4px;border:2px solid var(--g);background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:background .15s;font-size:.68rem;color:#fff;}
+.chk.on{background:var(--g);}
+.chk-txt{font-size:.75rem;color:var(--soft);line-height:1.4;}
+.modal-acts{display:flex;gap:7px;justify-content:flex-end;}
 
-/* ── Report table ── */
-.rtable { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-.rtable th { text-align: left; padding: 8px 12px; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-muted); border-bottom: 1px solid var(--border); font-weight: 600; }
-.rtable td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
-.rtable tr:last-child td { border-bottom: none; }
+/* Toast */
+.toast{position:fixed;bottom:20px;right:20px;padding:10px 15px;border-radius:var(--rads);font-size:.76rem;font-weight:600;display:flex;align-items:center;gap:6px;transform:translateY(50px);opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);z-index:200;max-width:280px;box-shadow:var(--shl);color:#fff;}
+.toast.show{transform:none;opacity:1;}
+.toast.ok{background:var(--g)}.toast.err{background:var(--r)}.toast.info{background:var(--ink);}
 
-/* ── Employee cards ── */
-.emp-main { padding: 24px 28px; }
-.emp-welcome {
-  margin-bottom: 20px;
-  padding: 20px 24px;
-  background: linear-gradient(135deg, var(--violet) 0%, #6d28d9 100%);
-  border-radius: var(--r);
-  color: white;
-}
-.emp-welcome h2 { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; }
-.emp-welcome p { font-size: 0.8rem; opacity: 0.8; margin-top: 4px; }
-.emp-banner {
-  display: flex; align-items: center; gap: 12px;
-  background: var(--amber-light);
-  border: 1px solid var(--amber-border);
-  border-radius: var(--r-sm);
-  padding: 12px 16px; margin-bottom: 16px;
-}
-.emp-banner-icon { font-size: 1.2rem; }
-.emp-banner h4 { font-size: 0.83rem; font-weight: 700; color: var(--amber); }
-.emp-banner p { font-size: 0.72rem; color: var(--ink-soft); margin-top: 2px; }
-
-.ecard {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  overflow: hidden; margin-bottom: 12px;
-  box-shadow: var(--shadow);
-  transition: border-color 0.2s;
-}
-.ecard.done { border-color: var(--green-border); }
-.ecard-head {
-  padding: 14px 18px;
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; gap: 12px;
-}
-.ecard-body { padding: 14px 18px; }
-.ecard-desc { font-size: 0.8rem; color: var(--ink-soft); margin-bottom: 12px; line-height: 1.5; }
-.ecard-meta { display: flex; gap: 14px; margin-bottom: 14px; }
-.ecard-meta-item { font-size: 0.7rem; color: var(--ink-muted); display: flex; align-items: center; gap: 4px; }
-.read-done {
-  display: flex; align-items: center; gap: 8px;
-  padding: 10px 14px;
-  background: var(--green-light);
-  border: 1px solid var(--green-border);
-  border-radius: var(--r-sm);
-  font-size: 0.78rem; color: var(--green); font-weight: 600;
-}
-.open-btn {
-  display: flex; align-items: center; gap: 7px;
-  padding: 7px 14px;
-  background: var(--bg); border: 1px solid var(--border);
-  border-radius: var(--r-sm); font-size: 0.75rem; font-weight: 600;
-  cursor: pointer; color: var(--ink-soft); font-family: 'Outfit', sans-serif;
-  transition: all 0.15s; margin-bottom: 10px; width: fit-content;
-}
-.open-btn:hover { border-color: var(--violet); color: var(--violet); background: var(--violet-light); }
-
-/* ── Modal ── */
-.ov {
-  position: fixed; inset: 0;
-  background: rgba(28,26,23,0.5);
-  backdrop-filter: blur(6px);
-  z-index: 100;
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none; transition: opacity 0.2s;
-}
-.ov.on { opacity: 1; pointer-events: all; }
-.modal {
-  background: var(--surface);
-  border-radius: 18px;
-  padding: 28px;
-  width: 420px; max-width: 95vw;
-  box-shadow: var(--shadow-lg);
-  transform: translateY(16px) scale(0.97);
-  transition: transform 0.24s cubic-bezier(0.34,1.56,0.64,1);
-}
-.ov.on .modal { transform: none; }
-.modal-ico { font-size: 1.8rem; margin-bottom: 10px; }
-.modal h2 { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 5px; }
-.modal p { font-size: 0.8rem; color: var(--ink-soft); margin-bottom: 16px; line-height: 1.5; }
-.modal-doc {
-  background: var(--bg); border: 1px solid var(--border);
-  border-radius: var(--r-sm); padding: 11px 13px;
-  display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
-}
-.modal-doc-ext { width: 30px; height: 30px; border-radius: 6px; background: var(--violet); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:0.55rem; color:white; font-weight:700; }
-.modal-doc-name { font-size: 0.8rem; font-weight: 700; }
-.modal-doc-sub { font-size: 0.68rem; color: var(--ink-muted); }
-.check-row {
-  display: flex; align-items: flex-start; gap: 10px;
-  background: var(--green-light); border: 1px solid var(--green-border);
-  border-radius: var(--r-sm); padding: 11px 13px;
-  margin-bottom: 16px; cursor: pointer;
-}
-.chk {
-  width: 18px; height: 18px; border-radius: 4px;
-  border: 2px solid var(--green); background: transparent;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; margin-top: 1px; transition: background 0.15s;
-  font-size: 0.7rem; color: white;
-}
-.chk.on { background: var(--green); }
-.chk-text { font-size: 0.78rem; color: var(--ink-soft); line-height: 1.4; }
-.modal-acts { display: flex; gap: 8px; justify-content: flex-end; }
-
-/* ── Toast ── */
-.toast {
-  position: fixed; bottom: 22px; right: 22px;
-  padding: 11px 16px; border-radius: var(--r-sm);
-  font-size: 0.78rem; font-weight: 600;
-  display: flex; align-items: center; gap: 7px;
-  transform: translateY(50px); opacity: 0;
-  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
-  z-index: 200; max-width: 300px;
-  box-shadow: var(--shadow-lg); color: white;
-}
-.toast.show { transform: none; opacity: 1; }
-.toast.ok { background: var(--green); }
-.toast.err { background: var(--red); }
-.toast.info { background: var(--ink); }
-
-.empty { text-align: center; padding: 36px 20px; color: var(--ink-muted); font-size: 0.8rem; }
-.slbl { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: var(--ink-muted); margin-bottom: 9px; }
-
-@media(max-width:700px){
-  .shell{flex-direction:column;}
-  .sidebar{width:100%;border-right:none;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;padding:8px;}
-  .stats{grid-template-columns:repeat(2,1fr);}
-  .two-col{grid-template-columns:1fr;}
-  .fg-2{grid-template-columns:1fr;}
-}
+.empty{text-align:center;padding:32px 16px;color:var(--muted);font-size:.78rem;}
 </style>
 </head>
 <body>
 
 <script>
-// ══════════════════════════════════════════════
-//  ⚙️  CONFIG — Kendi değerlerinizi girin
-// ══════════════════════════════════════════════
+// ══════════════════════════════════════
+//  ⚙️  CONFIG — Buraya kendi bilgilerinizi girin
+// ══════════════════════════════════════
 const CFG = {
-  // Flow 1: Belge yükle ve dağıt
-  FLOW_UPLOAD_URL: "https://defaultee7a19d634f6497fafdd901f6d43ea.25.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/75d5f56231914dc590b11c1cd499a37f/triggers/manual/paths/invoke?api-version=1",
+  FLOW_UPLOAD_URL: "https://defaultee7a19d634f6497fafdd901f6d43ea.25.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/75d5f56231914dc590b11c1cd499a37f/triggers/manual/paths/invoke?api-version=1",   // Belge Yükle akışı HTTP URL
+  FLOW_READ_URL:   "https://defaultee7a19d634f6497fafdd901f6d43ea.25.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/922eeac1a71c42b9ab83fcc01811e013/triggers/manual/paths/invoke?api-version=1",   // Okuma Kaydı akışı HTTP URL
 
-  // Flow 2: Okuma kaydı oluştur
-  FLOW_READ_URL: "https://defaultee7a19d634f6497fafdd901f6d43ea.25.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/922eeac1a71c42b9ab83fcc01811e013/triggers/manual/paths/invoke?api-version=1",
-
-  // SharePoint
   SITE_URL: "https://balsugidatr.sharepoint.com/sites/ik",
-  LIBRARY: "Belgeler",
+  LIBRARY:  "Belgeler",
 
-  // Kullanıcılar — role: "admin" veya "employee"
+  // Tüm kullanıcılar — role: "admin" veya "employee"
   USERS: [
-    { name:"yorungetest",  email:"yorungetest@balsugida.com",   dept:"İK",  role:"employee",    color:"#4f3dff" },
-    { name:"Cemile Dilaver",      email:"cemiled@balsugida.com",      dept:"İK",       role:"employee", color:"#0891b2" },
-   
-  ]
+    { name:"Yusuf Yıldırım", email:"yorunge@balsugida.com",  dept:"Yönetim",   role:"admin",    color:"#4f3dff" },
+    { name:"Onur Şener",     email:"onur@balsugida.com",     dept:"İK",        role:"employee", color:"#0891b2" },
+    { name:"Ayşe Demir",     email:"ayse@balsugida.com",     dept:"Hukuk",     role:"employee", color:"#7c3aed" },
+    { name:"Mehmet Kaya",    email:"mehmet@balsugida.com",   dept:"Finans",    role:"employee", color:"#b45309" },
+    { name:"Zeynep Arslan",  email:"zeynep@balsugida.com",   dept:"İK",        role:"employee", color:"#059669" },
+    { name:"Can Yılmaz",     email:"can@balsugida.com",      dept:"IT",        role:"employee", color:"#dc2626" },
+    { name:"Elif Çelik",     email:"elif@balsugida.com",     dept:"Pazarlama", role:"employee", color:"#0284c7" },
+    { name:"Burak Öztürk",   email:"burak@balsugida.com",    dept:"Operasyon", role:"employee", color:"#16a34a" },
+  ],
+
+  // Çalışan olarak test etmek için bu e-postayı değiştirin
+  // Gerçek sistemde SharePoint'ten otomatik alınır
+  CURRENT_USER_EMAIL: "yorunge@balsugida.com"
 };
 </script>
 
 <!-- Role Bar -->
-<div class="role-bar">
-  <span class="role-bar-text">🔧 Demo — Rol seçin:</span>
-  <div class="role-tabs">
-    <button class="role-btn on" onclick="switchRole('admin')">👤 Admin</button>
-    <button class="role-btn" onclick="switchRole('employee')">👥 Çalışan</button>
+<div class="rbar">
+  <span class="rbar-txt">🔧 Demo modu — Rol seçin:</span>
+  <div class="rtabs">
+    <button class="rtab on" onclick="switchRole('admin')">👤 Admin Görünümü</button>
+    <button class="rtab" onclick="switchRole('employee')">👥 Çalışan Görünümü</button>
   </div>
 </div>
 
-<!-- Top Bar -->
+<!-- Topbar -->
 <div class="topbar">
   <div class="brand">
-    <div class="brand-icon">📋</div>
+    <div class="brand-ico">📋</div>
     <div>
       <div class="brand-name">Belge Okuma Sistemi</div>
-      <div class="brand-sub">BALSU GIDA · İnsan Kaynakları</div>
+      <div class="brand-sub">BALSU GIDA · İnsan Kaynakları Portalı</div>
     </div>
   </div>
-  <div class="topbar-user">
-    <div class="t-av" id="tAv"></div>
-    <span class="t-name" id="tName"></span>
-    <span class="t-badge" id="tBadge"></span>
+  <div class="tuser">
+    <div class="tav" id="tAv"></div>
+    <span class="tname" id="tName"></span>
+    <span class="tbadge" id="tBadge"></span>
   </div>
 </div>
 
-<!-- ADMIN VIEW -->
+<!-- ═══ ADMIN VIEW ═══ -->
 <div id="adminView">
   <div class="shell">
     <div class="sidebar">
-      <div class="nav-section">Yönetim</div>
-      <button class="nav-btn on" onclick="goPage('dash')"><span class="ico">📊</span>Genel Bakış</button>
-      <button class="nav-btn" onclick="goPage('upload')"><span class="ico">📤</span>Belge Yükle</button>
-      <button class="nav-btn" onclick="goPage('docs')">
+      <div class="nsec">Yönetim</div>
+      <button class="nbtn on" onclick="goPage('dash')"><span class="ico">📊</span>Genel Bakış</button>
+      <button class="nbtn" onclick="goPage('upload')"><span class="ico">📤</span>Belge Yükle</button>
+      <button class="nbtn" onclick="goPage('docs')">
         <span class="ico">📁</span>Belgeler
-        <span class="nav-count" id="navCnt">0</span>
+        <span class="ncnt" id="navCnt">0</span>
       </button>
-      <div class="nav-section">Raporlar</div>
-      <button class="nav-btn" onclick="goPage('report')"><span class="ico">📋</span>Okuma Raporu</button>
+      <div class="nsec">Raporlar</div>
+      <button class="nbtn" onclick="goPage('report')"><span class="ico">📋</span>Okuma Raporu</button>
     </div>
 
     <div class="main">
 
       <!-- Dashboard -->
       <div id="pgDash">
-        <div class="pg-head">
-          <div class="pg-title">Genel Bakış</div>
-          <div class="pg-sub">Belge okuma takip sistemi özeti</div>
-        </div>
+        <div class="pgh"><div class="pgt">Genel Bakış</div><div class="pgs">Belge okuma takip özeti</div></div>
         <div class="stats">
-          <div class="stat"><div class="stat-val v" id="sTotal">0</div><div class="stat-lbl">Toplam Belge</div></div>
-          <div class="stat"><div class="stat-val g" id="sDone">0</div><div class="stat-lbl">Tam Okundu</div></div>
-          <div class="stat"><div class="stat-val a" id="sPartial">0</div><div class="stat-lbl">Kısmi Okundu</div></div>
-          <div class="stat"><div class="stat-val r" id="sNone">0</div><div class="stat-lbl">Hiç Okunmadı</div></div>
+          <div class="stat"><div class="stat-n v" id="sTotal">0</div><div class="stat-l">Toplam Belge</div></div>
+          <div class="stat"><div class="stat-n g" id="sDone">0</div><div class="stat-l">Tam Okundu</div></div>
+          <div class="stat"><div class="stat-n a" id="sPartial">0</div><div class="stat-l">Kısmi Okundu</div></div>
+          <div class="stat"><div class="stat-n r" id="sNone">0</div><div class="stat-l">Hiç Okunmadı</div></div>
         </div>
         <div class="card">
           <div class="card-head">
             <span class="card-title">Son Belgeler</span>
-            <button class="btn btn-v" style="padding:6px 14px;font-size:0.75rem;" onclick="goPage('upload')">+ Yeni Yükle</button>
+            <button class="btn btn-v" style="padding:6px 13px;font-size:.72rem;" onclick="goPage('upload')">+ Yeni Yükle</button>
           </div>
-          <div class="doc-list" id="dashList"><div class="empty">Henüz belge yok.</div></div>
+          <div class="doclist" id="dashList"><div class="empty">Henüz belge yok.</div></div>
         </div>
       </div>
 
       <!-- Upload -->
       <div id="pgUpload" style="display:none;">
-        <div class="pg-head">
-          <div class="pg-title">Yeni Belge Yükle</div>
-          <div class="pg-sub">Belgeyi yükleyin ve okuyacak çalışanları seçin</div>
-        </div>
+        <div class="pgh"><div class="pgt">Yeni Belge Yükle</div><div class="pgs">Belgeyi yükleyin, okuyacak çalışanları seçin</div></div>
         <div class="card">
           <div class="card-body">
-            <div class="dropzone" id="dz" onclick="document.getElementById('fin').click()">
+            <div class="dz" id="dz" onclick="document.getElementById('fin').click()">
               <div class="dz-ico">📎</div>
-              <div class="dz-title">Dosya Seç veya Sürükle</div>
-              <div class="dz-sub">PDF · Word · Excel · PowerPoint · Maks 20 MB</div>
+              <div class="dz-t">Dosya Seç veya Sürükle</div>
+              <div class="dz-s">PDF · Word · Excel · PowerPoint · Maks 20 MB</div>
               <input type="file" id="fin" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" onchange="pickFile(event)">
             </div>
             <div id="formWrap" style="display:none;">
-              <div id="fstrip" class="fstrip">
-                <div class="fstrip-ext" id="fExt"></div>
-                <div class="fstrip-info">
-                  <div class="fstrip-name" id="fName"></div>
-                  <div class="fstrip-size" id="fSize"></div>
-                </div>
-                <button class="fstrip-rm" onclick="clearFile()">✕</button>
+              <div class="fstrip">
+                <div class="fext" id="fExt"></div>
+                <div class="finfo"><div class="fname" id="fName"></div><div class="fsize" id="fSize"></div></div>
+                <button class="frm" onclick="clearFile()">✕</button>
               </div>
-              <div class="fg fg-2">
+              <div class="fg fg2">
                 <div class="fl"><label>Belge Başlığı *</label><input type="text" id="fTitle" placeholder="Örn: İSG Prosedürü 2024"></div>
                 <div class="fl"><label>Belge Türü</label>
-                  <select id="fType">
-                    <option>Prosedür</option><option>Yönerge</option><option>Politika</option>
-                    <option>Duyuru</option><option>Sözleşme</option><option>Form</option><option>Diğer</option>
-                  </select>
+                  <select id="fType"><option>Prosedür</option><option>Yönerge</option><option>Politika</option><option>Duyuru</option><option>Sözleşme</option><option>Form</option><option>Diğer</option></select>
                 </div>
               </div>
-              <div class="fg fg-1" style="margin-bottom:12px;">
+              <div class="fg fg1" style="margin-bottom:11px;">
                 <div class="fl">
                   <label>Okuyacak Çalışanlar *</label>
-                  <div class="usearch">
-                    <input type="text" id="uSearch" placeholder="İsim veya departman ara..." autocomplete="off"
-                      oninput="searchU(this.value)" onfocus="searchU(this.value)">
+                  <div class="usw">
+                    <input type="text" id="uSearch" placeholder="İsim veya departman ara..." autocomplete="off" oninput="searchU(this.value)" onfocus="searchU(this.value)">
                     <div class="ubox" id="uBox"></div>
                   </div>
                   <div class="tags" id="uTags"></div>
-                  <div style="font-size:0.68rem;color:var(--ink-muted);margin-top:5px;" id="uHint"></div>
+                  <div style="font-size:.65rem;color:var(--muted);margin-top:4px;" id="uHint"></div>
                 </div>
               </div>
-              <div class="fg fg-1">
-                <div class="fl"><label>Açıklama / Okuma Talimatı</label><textarea id="fDesc" placeholder="Çalışanlara iletmek istediğiniz bilgi veya talimat..."></textarea></div>
+              <div class="fg fg1">
+                <div class="fl"><label>Açıklama / Okuma Talimatı</label><textarea id="fDesc" placeholder="Çalışanlara iletmek istediğiniz talimat veya açıklama..."></textarea></div>
               </div>
               <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:4px;">
                 <button class="btn btn-ghost" onclick="clearFile()">İptal</button>
@@ -662,30 +372,27 @@ const CFG = {
 
       <!-- Docs -->
       <div id="pgDocs" style="display:none;">
-        <div class="pg-head">
-          <div class="pg-title">Tüm Belgeler</div>
-          <div class="pg-sub">Belge bazlı okuma durumları</div>
-        </div>
-        <div class="two-col">
+        <div class="pgh"><div class="pgt">Tüm Belgeler</div><div class="pgs">Okuma durumu takibi</div></div>
+        <div class="twocol">
           <div class="card">
-            <div class="doc-list" id="docsList"><div class="empty">Henüz belge yok.</div></div>
+            <div class="doclist" id="docsList"><div class="empty">Henüz belge yok.</div></div>
           </div>
           <div class="detail" id="detailPanel" style="display:none;">
-            <div class="detail-head">
-              <div class="detail-title" id="dTitle">—</div>
-              <div class="detail-meta" id="dMeta">—</div>
+            <div class="dhead">
+              <div class="dtitle" id="dTitle">—</div>
+              <div class="dmeta2" id="dMeta">—</div>
             </div>
-            <div class="detail-body">
-              <div class="ring-wrap">
+            <div class="dbody">
+              <div class="ringwrap">
                 <div class="ring">
-                  <svg width="54" height="54" viewBox="0 0 54 54">
-                    <circle class="ring-bg" cx="27" cy="27" r="22" stroke-dasharray="138" stroke-dashoffset="0"/>
-                    <circle class="ring-fill" id="ringFill" cx="27" cy="27" r="22" stroke-dasharray="138" stroke-dashoffset="138"/>
+                  <svg width="52" height="52" viewBox="0 0 52 52">
+                    <circle class="ring-bg" cx="26" cy="26" r="21" stroke-dasharray="132" stroke-dashoffset="0"/>
+                    <circle class="ring-fill" id="ringFill" cx="26" cy="26" r="21" stroke-dasharray="132" stroke-dashoffset="132"/>
                   </svg>
                   <div class="ring-txt" id="ringPct">0%</div>
                 </div>
-                <div class="ring-info">
-                  <h4 id="ringLabel">0 / 0 Okudu</h4>
+                <div class="rinfo">
+                  <h4 id="ringLabel">0/0 Okudu</h4>
                   <p id="ringSub">—</p>
                 </div>
               </div>
@@ -698,31 +405,26 @@ const CFG = {
 
       <!-- Report -->
       <div id="pgReport" style="display:none;">
-        <div class="pg-head">
-          <div class="pg-title">Okuma Raporu</div>
-          <div class="pg-sub">Tüm belgeler için okuma istatistikleri</div>
-        </div>
-        <div class="card">
-          <div class="card-body" id="reportBody"><div class="empty">Henüz veri yok.</div></div>
-        </div>
+        <div class="pgh"><div class="pgt">Okuma Raporu</div><div class="pgs">Tüm belgeler için istatistikler</div></div>
+        <div class="card"><div class="card-body" id="reportBody"><div class="empty">Henüz veri yok.</div></div></div>
       </div>
 
     </div>
   </div>
 </div>
 
-<!-- EMPLOYEE VIEW -->
+<!-- ═══ EMPLOYEE VIEW ═══ -->
 <div id="empView" style="display:none;">
   <div class="emp-main">
     <div class="emp-welcome">
       <h2>Merhaba, <span id="empName">—</span> 👋</h2>
-      <p>Aşağıdaki belgeler sizin onayınızı bekliyor. Lütfen okuyup "Okudum, Anladım" butonuna basın.</p>
+      <p>Size gönderilen belgeler aşağıda listeleniyor. Belgeyi açıp okuduktan sonra "Okudum, Anladım" butonuna basın.</p>
     </div>
     <div class="emp-banner" id="empBanner" style="display:none;">
-      <div class="emp-banner-icon">📬</div>
+      <div style="font-size:1.1rem;">📬</div>
       <div>
         <h4 id="empBannerTitle">Bekleyen belgeniz var</h4>
-        <p>Belgeleri okuyup onaylayın — yöneticiniz takip ediyor.</p>
+        <p>Lütfen aşağıdaki belgeleri okuyup onaylayın.</p>
       </div>
     </div>
     <div id="empCards"><div class="empty">Size gönderilmiş belge bulunmuyor.</div></div>
@@ -734,21 +436,21 @@ const CFG = {
   <div class="modal">
     <div class="modal-ico">📄</div>
     <h2>Okudum, Anladım</h2>
-    <p>Aşağıdaki belgeyi okuduğunuzu onaylamak üzeresiniz. Bu işlem geri alınamaz ve yöneticinize bildirilir.</p>
+    <p>Aşağıdaki belgeyi okuduğunuzu onaylamak üzeresiniz. Bu bilgi yöneticinize iletilecektir.</p>
     <div class="modal-doc">
-      <div class="modal-doc-ext" id="mExt">PDF</div>
+      <div class="modal-ext" id="mExt">PDF</div>
       <div>
-        <div class="modal-doc-name" id="mName">—</div>
-        <div class="modal-doc-sub" id="mSub">—</div>
+        <div class="modal-dname" id="mName">—</div>
+        <div class="modal-dsub" id="mSub">—</div>
       </div>
     </div>
-    <div class="check-row" onclick="toggleChk()">
+    <div class="chkrow" onclick="toggleChk()">
       <div class="chk" id="chkBox"></div>
-      <div class="chk-text">Bu belgeyi eksiksiz okudum, içeriğini anladım ve gerekli bilgileri aldığımı onaylıyorum.</div>
+      <div class="chk-txt">Bu belgeyi eksiksiz okudum, içeriğini anladım ve gerekli bilgileri aldığımı onaylıyorum.</div>
     </div>
     <div class="modal-acts">
       <button class="btn btn-ghost" onclick="closeOv()">Vazgeç</button>
-      <button class="btn btn-green" id="confirmBtn" onclick="doConfirm()" disabled style="width:auto;padding:9px 20px;">✓ Okudum, Anladım</button>
+      <button class="btn btn-g" id="confirmBtn" onclick="doConfirm()" disabled style="width:auto;padding:8px 18px;">✓ Okudum, Anladım</button>
     </div>
   </div>
 </div>
@@ -756,7 +458,7 @@ const CFG = {
 <div class="toast" id="toast"></div>
 
 <script>
-// ── State ──────────────────────────────────
+// ── State ──────────────────────────────
 let role = 'admin';
 let me = CFG.USERS[0];
 let selReaders = [];
@@ -766,52 +468,59 @@ let confirmId = null;
 let checked = false;
 let docs = [];
 
-// ── Init ───────────────────────────────────
+// ── Init ───────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
-  setMe(CFG.USERS[0]);
+  // Mevcut kullanıcıyı CFG'den bul
+  const found = CFG.USERS.find(u => u.email === CFG.CURRENT_USER_EMAIL);
+  setMe(found || CFG.USERS[0]);
   renderAdmin();
   setupDrop();
   document.addEventListener('click', e => {
-    if (!e.target.closest('.usearch')) document.getElementById('uBox').classList.remove('open');
+    if (!e.target.closest('.usw')) document.getElementById('uBox').classList.remove('open');
   });
 });
 
-function initials(n) { return n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(); }
-function ext(name) { return (name.split('.').pop()||'').toLowerCase(); }
-function extClass(e) { return ['pdf','doc','docx','xlsx','xls','pptx','ppt'].includes(e) ? e : 'def'; }
-function now() { return new Date().toLocaleString('tr-TR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
+function ini(n) { return n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(); }
+function getExt(name) { return (name.split('.').pop()||'').toLowerCase(); }
+function extCls(e) { return ['pdf','doc','docx','xlsx','xls','pptx','ppt'].includes(e)?e:'def'; }
+function nowStr() { return new Date().toLocaleString('tr-TR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
 
 function setMe(u) {
   me = u;
-  document.getElementById('tAv').textContent = initials(u.name);
+  document.getElementById('tAv').textContent = ini(u.name);
   document.getElementById('tAv').style.background = u.color;
   document.getElementById('tName').textContent = u.name;
-  document.getElementById('tBadge').textContent = u.role === 'admin' ? 'Admin' : 'Çalışan';
+  document.getElementById('tBadge').textContent = u.role==='admin' ? 'Admin' : 'Çalışan';
 }
 
-// ── Role ───────────────────────────────────
+// ── Role Switch ────────────────────────
 function switchRole(r) {
   role = r;
-  document.querySelectorAll('.role-btn').forEach((b,i) => b.classList.toggle('on',(r==='admin'&&i===0)||(r==='employee'&&i===1)));
+  document.querySelectorAll('.rtab').forEach((b,i) => b.classList.toggle('on',(r==='admin'&&i===0)||(r==='employee'&&i===1)));
   document.getElementById('adminView').style.display = r==='admin' ? 'block' : 'none';
   document.getElementById('empView').style.display = r==='employee' ? 'block' : 'none';
+
   if (r === 'employee') {
-    const emp = CFG.USERS.find(u=>u.role==='employee') || CFG.USERS[1];
+    // Çalışan rolünde: CURRENT_USER_EMAIL ile eşleşen kullanıcıyı bul
+    // Eğer admin ise ilk çalışanı seç (demo amaçlı)
+    let emp = CFG.USERS.find(u => u.email === CFG.CURRENT_USER_EMAIL && u.role === 'employee');
+    if (!emp) emp = CFG.USERS.find(u => u.role === 'employee') || CFG.USERS[1];
     setMe(emp);
     document.getElementById('empName').textContent = emp.name.split(' ')[0];
     renderEmp();
   } else {
-    setMe(CFG.USERS[0]);
+    const admin = CFG.USERS.find(u => u.role === 'admin') || CFG.USERS[0];
+    setMe(admin);
     renderAdmin();
   }
 }
 
-// ── Admin Pages ────────────────────────────
+// ── Admin Pages ────────────────────────
 function goPage(p) {
   ['Dash','Upload','Docs','Report'].forEach(x => {
     document.getElementById('pg'+x).style.display = x.toLowerCase()===p ? 'block' : 'none';
   });
-  document.querySelectorAll('.nav-btn').forEach((b,i) => {
+  document.querySelectorAll('.nbtn').forEach((b,i) => {
     b.classList.toggle('on', i === ['dash','upload','docs','report'].indexOf(p));
   });
   if (p==='docs') renderDetail();
@@ -819,16 +528,18 @@ function goPage(p) {
 }
 
 function docSt(d) {
-  const n = d.readers.length, done = d.readers.filter(r=>r.read).length;
+  const n=d.readers.length, done=d.readers.filter(r=>r.read).length;
   if (done===n && n>0) return 'complete';
   if (done>0) return 'partial';
   return 'pending';
 }
-function stLabel(s) { return {complete:'Tamamlandı',partial:'Kısmi',pending:'Bekliyor'}[s]||s; }
+function stLbl(s) { return {complete:'Tamamlandı',partial:'Kısmi',pending:'Bekliyor'}[s]||s; }
 
 function renderAdmin() {
-  const total=docs.length, done=docs.filter(d=>docSt(d)==='complete').length;
-  const partial=docs.filter(d=>docSt(d)==='partial').length, none=docs.filter(d=>docSt(d)==='pending').length;
+  const total=docs.length;
+  const done=docs.filter(d=>docSt(d)==='complete').length;
+  const partial=docs.filter(d=>docSt(d)==='partial').length;
+  const none=docs.filter(d=>docSt(d)==='pending').length;
   document.getElementById('sTotal').textContent=total;
   document.getElementById('sDone').textContent=done;
   document.getElementById('sPartial').textContent=partial;
@@ -841,20 +552,20 @@ function renderAdmin() {
 function renderDocList(id) {
   const el = document.getElementById(id);
   if (!docs.length) { el.innerHTML='<div class="empty">Henüz belge yüklenmedi.</div>'; return; }
-  el.innerHTML = docs.map(d=>{
+  el.innerHTML = docs.map(d => {
     const done=d.readers.filter(r=>r.read).length, total=d.readers.length;
     const pct=total?Math.round(done/total*100):0, st=docSt(d);
-    return `<div class="doc-row${selDocId===d.id?' sel':''}" onclick="selDoc(${d.id})">
-      <div class="doc-thumb ${extClass(d.ext)}">${d.ext.toUpperCase()}</div>
-      <div class="doc-info">
-        <div class="doc-name">${d.title}</div>
-        <div class="doc-meta">${d.type} · ${d.uploader} · ${d.date}</div>
+    return `<div class="drow${selDocId===d.id?' sel':''}" onclick="selDoc(${d.id})">
+      <div class="dthumb ${extCls(d.ext)}">${d.ext.toUpperCase()}</div>
+      <div class="dinfo">
+        <div class="dname">${d.title}</div>
+        <div class="dmeta">${d.type} · ${d.uploader} · ${d.date}</div>
       </div>
-      <div class="doc-prog">
-        <div class="dp-txt">${done}/${total} okudu</div>
-        <div class="dp-bar"><div class="dp-fill" style="width:${pct}%"></div></div>
+      <div class="dprog">
+        <div class="dptxt">${done}/${total} okudu</div>
+        <div class="dpbar"><div class="dpfill" style="width:${pct}%"></div></div>
       </div>
-      <span class="badge ${st}">${stLabel(st)}</span>
+      <span class="badge ${st}">${stLbl(st)}</span>
     </div>`;
   }).join('');
 }
@@ -871,74 +582,69 @@ function renderDetail() {
   const d = docs.find(x=>x.id===selDocId); if (!d) return;
   const done=d.readers.filter(r=>r.read).length, total=d.readers.length;
   const pct=total?Math.round(done/total*100):0;
-  const circ=138, offset=circ-(pct/100)*circ;
+  const circ=132, offset=circ-(pct/100)*circ;
   document.getElementById('dTitle').textContent=d.title;
   document.getElementById('dMeta').textContent=`${d.type} · ${d.date}`;
   document.getElementById('ringFill').style.strokeDashoffset=offset;
   document.getElementById('ringPct').textContent=pct+'%';
-  document.getElementById('ringLabel').textContent=`${done} / ${total} Okudu`;
+  document.getElementById('ringLabel').textContent=`${done}/${total} Okudu`;
   document.getElementById('ringSub').textContent=done===total?'✓ Herkes okudu':`${total-done} kişi henüz okumadı`;
   document.getElementById('readerRows').innerHTML = d.readers.map(r=>`
-    <div class="reader-row">
-      <div class="r-av" style="background:${r.color}">${initials(r.name)}</div>
-      <div class="r-name">${r.name}<br><span style="font-size:0.65rem;color:var(--ink-muted);font-weight:400;">${r.dept}</span></div>
+    <div class="rrow">
+      <div class="rav" style="background:${r.color}">${ini(r.name)}</div>
+      <div class="rname">${r.name}<br><span style="font-size:.62rem;color:var(--muted);font-weight:400;">${r.dept}</span></div>
       ${r.read
-        ? `<div><div class="r-ok yes">✓ OKUDU</div><div class="r-date">${r.readDate}</div></div>`
-        : `<div class="r-ok no">— BEKLİYOR</div>`}
+        ? `<div style="text-align:right;"><div class="rok yes">✓ OKUDU</div><div class="rdate">${r.readDate}</div></div>`
+        : `<div class="rok no">— BEKLİYOR</div>`}
     </div>`).join('');
 }
 
 function renderReport() {
   const el = document.getElementById('reportBody');
   if (!docs.length) { el.innerHTML='<div class="empty">Henüz veri yok.</div>'; return; }
-  el.innerHTML = `<table class="rtable">
-    <thead><tr>
-      <th>Belge</th><th>Tür</th><th>Toplam</th><th>Okudu</th><th>Oran</th><th>Durum</th>
-    </tr></thead>
+  el.innerHTML = `<table class="rtbl">
+    <thead><tr><th>Belge</th><th>Tür</th><th>Toplam</th><th>Okudu</th><th>Oran</th><th>Durum</th></tr></thead>
     <tbody>${docs.map(d=>{
       const done=d.readers.filter(r=>r.read).length, total=d.readers.length;
       const pct=total?Math.round(done/total*100):0, st=docSt(d);
       return `<tr>
-        <td><strong>${d.title}</strong><br><span style="font-size:0.68rem;color:var(--ink-muted);">${d.filename}</span></td>
-        <td style="color:var(--ink-muted);">${d.type}</td>
+        <td><strong>${d.title}</strong><br><span style="font-size:.65rem;color:var(--muted);">${d.filename}</span></td>
+        <td style="color:var(--muted);">${d.type}</td>
         <td style="text-align:center;">${total}</td>
-        <td style="text-align:center;color:var(--green);font-weight:700;">${done}</td>
-        <td>
-          <div style="display:flex;align-items:center;gap:7px;">
-            <div style="width:56px;height:4px;background:var(--border);border-radius:2px;overflow:hidden;">
-              <div style="width:${pct}%;height:100%;background:var(--green);border-radius:2px;"></div>
-            </div>
-            <span style="font-size:0.72rem;">${pct}%</span>
+        <td style="text-align:center;color:var(--g);font-weight:700;">${done}</td>
+        <td><div style="display:flex;align-items:center;gap:6px;">
+          <div style="width:52px;height:3px;background:var(--border);border-radius:2px;overflow:hidden;">
+            <div style="width:${pct}%;height:100%;background:var(--g);border-radius:2px;"></div>
           </div>
-        </td>
-        <td><span class="badge ${st}">${stLabel(st)}</span></td>
+          <span style="font-size:.7rem;">${pct}%</span>
+        </div></td>
+        <td><span class="badge ${st}">${stLbl(st)}</span></td>
       </tr>`;
-    }).join('')}</tbody>
-  </table>`;
+    }).join('')}</tbody></table>`;
 }
 
-// ── File ───────────────────────────────────
+// ── File ───────────────────────────────
 function pickFile(e) {
   const f = e.target.files[0]; if (!f) return;
   if (f.size > 20*1024*1024) { toast('Dosya 20 MB sınırını aşıyor.','err'); return; }
   upFile = f;
-  const ex = ext(f.name);
+  const ex = getExt(f.name);
   document.getElementById('fExt').textContent = ex.toUpperCase();
   document.getElementById('fName').textContent = f.name;
-  document.getElementById('fSize').textContent = (f.size/1024).toFixed(0) + ' KB';
+  document.getElementById('fSize').textContent = (f.size/1024).toFixed(0)+' KB';
   document.getElementById('dz').style.display = 'none';
   document.getElementById('formWrap').style.display = 'block';
   document.getElementById('fTitle').value = f.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' ');
 }
 
 function clearFile() {
-  upFile = null; selReaders = [];
-  document.getElementById('fin').value = '';
-  document.getElementById('dz').style.display = 'block';
-  document.getElementById('formWrap').style.display = 'none';
-  document.getElementById('uTags').innerHTML = '';
-  document.getElementById('uSearch').value = '';
-  document.getElementById('uHint').textContent = '';
+  upFile=null; selReaders=[];
+  document.getElementById('fin').value='';
+  document.getElementById('dz').style.display='block';
+  document.getElementById('formWrap').style.display='none';
+  document.getElementById('uTags').innerHTML='';
+  document.getElementById('uSearch').value='';
+  document.getElementById('uHint').textContent='';
 }
 
 function setupDrop() {
@@ -951,41 +657,41 @@ function setupDrop() {
   });
 }
 
-// ── User search ────────────────────────────
+// ── User search ────────────────────────
 function searchU(q) {
-  const box = document.getElementById('uBox');
-  const term = q.trim().toLowerCase();
-  const already = selReaders.map(r=>r.email);
-  const res = CFG.USERS.filter(u=>u.role!=='admin'&&!already.includes(u.email)&&(!term||u.name.toLowerCase().includes(term)||u.dept.toLowerCase().includes(term)));
+  const box=document.getElementById('uBox');
+  const term=q.trim().toLowerCase();
+  const already=selReaders.map(r=>r.email);
+  const res=CFG.USERS.filter(u=>u.role!=='admin'&&!already.includes(u.email)&&(!term||u.name.toLowerCase().includes(term)||u.dept.toLowerCase().includes(term)));
   if (!res.length) { box.classList.remove('open'); return; }
-  box.innerHTML = res.map(u=>`
+  box.innerHTML=res.map(u=>`
     <div class="urow" onclick="addReader('${u.email}')">
-      <div class="uav" style="background:${u.color}">${initials(u.name)}</div>
+      <div class="uav" style="background:${u.color}">${ini(u.name)}</div>
       <div><div class="un">${u.name}</div><div class="ud">${u.dept}</div></div>
     </div>`).join('');
   box.classList.add('open');
 }
 
 function addReader(email) {
-  const u = CFG.USERS.find(x=>x.email===email);
+  const u=CFG.USERS.find(x=>x.email===email);
   if (!u||selReaders.find(r=>r.email===email)) return;
   selReaders.push(u);
-  document.getElementById('uSearch').value = '';
+  document.getElementById('uSearch').value='';
   document.getElementById('uBox').classList.remove('open');
   renderTags();
 }
 function removeReader(email) { selReaders=selReaders.filter(r=>r.email!==email); renderTags(); }
 function renderTags() {
-  document.getElementById('uTags').innerHTML = selReaders.map(u=>`
+  document.getElementById('uTags').innerHTML=selReaders.map(u=>`
     <div class="tag">
-      <div class="tag-av" style="background:${u.color}">${initials(u.name)}</div>
-      <span class="tag-n">${u.name}</span>
-      <button class="tag-x" onclick="removeReader('${u.email}')">✕</button>
+      <div class="tav2" style="background:${u.color}">${ini(u.name)}</div>
+      <span class="tn">${u.name}</span>
+      <button class="tx" onclick="removeReader('${u.email}')">✕</button>
     </div>`).join('');
-  document.getElementById('uHint').textContent = selReaders.length ? `${selReaders.length} çalışan seçildi` : '';
+  document.getElementById('uHint').textContent=selReaders.length?`${selReaders.length} çalışan seçildi`:'';
 }
 
-// ── Send doc ───────────────────────────────
+// ── Send doc ───────────────────────────
 async function sendDoc() {
   const title=document.getElementById('fTitle').value.trim();
   const type=document.getElementById('fType').value;
@@ -998,37 +704,42 @@ async function sendDoc() {
   btn.disabled=true; btn.textContent='Gönderiliyor...';
 
   try {
-    const b64 = await toB64(upFile);
-    // SharePoint linki (yüklenince oluşacak gerçek link)
-    const spUrl = `${CFG.SITE_URL}/${CFG.LIBRARY}/${encodeURIComponent(upFile.name)}`;
+    const b64=await toB64(upFile);
+    const spUrl=`${CFG.SITE_URL}/${CFG.LIBRARY}/${encodeURIComponent(upFile.name)}`;
 
+    // Flow 1'e gönder
     if (CFG.FLOW_UPLOAD_URL !== "BURAYA_FLOW1_URL") {
-      await fetch(CFG.FLOW_UPLOAD_URL, {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({
-          fileName: upFile.name, fileContent: b64,
+      const resp = await fetch(CFG.FLOW_UPLOAD_URL, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          fileName:upFile.name, fileContent:b64,
           title, type, desc,
-          uploaderName: me.name, uploaderEmail: me.email,
-          readers: selReaders.map(r=>({name:r.name,email:r.email})),
-          sentAt: new Date().toISOString(),
-          siteUrl: CFG.SITE_URL, library: CFG.LIBRARY,
+          uploaderName:me.name, uploaderEmail:me.email,
+          readers:selReaders.map(r=>({name:r.name,email:r.email})),
+          sentAt:new Date().toISOString(),
+          siteUrl:CFG.SITE_URL, library:CFG.LIBRARY,
         })
       });
+      // Flow'dan dönen SharePoint linkini al (varsa)
+      try {
+        const data = await resp.json();
+        if (data.spUrl) spUrl = data.spUrl;
+      } catch(e) {}
     }
 
     // Demo listeye ekle
-    docs.unshift({
-      id: Date.now(), title, type, desc,
-      filename: upFile.name, ext: ext(upFile.name),
-      uploader: me.name, date: now(),
-      spUrl,
-      readers: selReaders.map(r=>({...r, read:false, readDate:null}))
-    });
-
+    const newDoc = {
+      id:Date.now(), title, type, desc,
+      filename:upFile.name, ext:getExt(upFile.name),
+      uploader:me.name, date:nowStr(), spUrl,
+      readers:selReaders.map(r=>({...r, read:false, readDate:null}))
+    };
+    docs.unshift(newDoc);
     clearFile();
     renderAdmin();
     goPage('docs');
-    selDoc(docs[0].id);
+    selDoc(newDoc.id);
     toast(`✓ Belge ${selReaders.length} çalışana gönderildi!`,'ok');
   } catch(err) {
     toast('Hata: '+err.message,'err');
@@ -1046,65 +757,71 @@ function toB64(f) {
   });
 }
 
-// ── Employee view ──────────────────────────
+// ── Employee view ──────────────────────
 function renderEmp() {
-  const myDocs = docs.filter(d=>d.readers.some(r=>r.email===me.email));
-  const pending = myDocs.filter(d=>{ const r=d.readers.find(x=>x.email===me.email); return r&&!r.read; });
+  // Mevcut çalışanın belgelerini bul
+  const myDocs = docs.filter(d => d.readers.some(r => r.email === me.email));
+  const pending = myDocs.filter(d => {
+    const r = d.readers.find(x => x.email === me.email);
+    return r && !r.read;
+  });
 
   const banner = document.getElementById('empBanner');
-  if (pending.length>0) {
-    banner.style.display='flex';
-    document.getElementById('empBannerTitle').textContent=`${pending.length} bekleyen belgeniz var`;
-  } else banner.style.display='none';
+  if (pending.length > 0) {
+    banner.style.display = 'flex';
+    document.getElementById('empBannerTitle').textContent = `${pending.length} bekleyen belgeniz var`;
+  } else {
+    banner.style.display = 'none';
+  }
 
   const el = document.getElementById('empCards');
-  if (!myDocs.length) { el.innerHTML='<div class="empty">Size gönderilmiş belge bulunmuyor.</div>'; return; }
+  if (!myDocs.length) {
+    el.innerHTML = '<div class="empty">Size gönderilmiş belge bulunmuyor.</div>';
+    return;
+  }
 
-  el.innerHTML = myDocs.map(d=>{
-    const me2=d.readers.find(r=>r.email===me.email);
-    const done=me2&&me2.read;
-    const ex=extClass(d.ext);
+  el.innerHTML = myDocs.map(d => {
+    const myR = d.readers.find(r => r.email === me.email);
+    const done = myR && myR.read;
+    const ex = extCls(d.ext);
+
+    // Belge açma linki — PDF için direkt, diğerleri için Office Online
+    const openUrl = d.ext === 'pdf'
+      ? d.spUrl
+      : `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(d.spUrl)}`;
+
     return `<div class="ecard${done?' done':''}">
       <div class="ecard-head">
-        <div class="doc-thumb ${ex}" style="width:36px;height:42px;">${d.ext.toUpperCase()}</div>
+        <div class="dthumb ${ex}" style="width:36px;height:42px;">${d.ext.toUpperCase()}</div>
         <div style="flex:1;min-width:0;">
-          <div style="font-size:0.88rem;font-weight:700;">${d.title}</div>
-          <div style="font-size:0.7rem;color:var(--ink-muted);margin-top:2px;">${d.type} · Gönderen: ${d.uploader}</div>
+          <div style="font-size:.85rem;font-weight:700;">${d.title}</div>
+          <div style="font-size:.68rem;color:var(--muted);margin-top:1px;">${d.type} · Gönderen: ${d.uploader} · ${d.date}</div>
         </div>
-        <span class="badge ${done?'complete':'unread'}">${done?'Okundu':'Okunmadı'}</span>
+        <span class="badge ${done?'complete':'unread'}">${done?'✓ Okundu':'Okunmadı'}</span>
       </div>
       <div class="ecard-body">
         ${d.desc?`<div class="ecard-desc">${d.desc}</div>`:''}
         <div class="ecard-meta">
-          <div class="ecard-meta-item">📅 ${d.date}</div>
-          <div class="ecard-meta-item">📄 ${d.filename}</div>
+          <div class="ecard-mi">📅 ${d.date}</div>
+          <div class="ecard-mi">📄 ${d.filename}</div>
         </div>
-        <button class="open-btn" onclick="openDoc('${d.spUrl}','${d.ext}')">
+        <a class="open-btn" href="${openUrl}" target="_blank" rel="noopener">
           🔗 Belgeyi Aç ${d.ext==='pdf'?'(PDF Görüntüleyici)':'(Office Online)'}
-        </button>
+        </a>
         ${done
-          ? `<div class="read-done">✓ ${me2.readDate} tarihinde okudunuz ve onayladınız.</div>`
-          : `<button class="btn btn-green" onclick="openConfirm(${d.id})">✓ Okudum, Anladım</button>`}
+          ? `<div class="read-done">✓ ${myR.readDate} tarihinde okuyup onayladınız.</div>`
+          : `<button class="btn btn-g" onclick="openConfirm(${d.id})">✓ Okudum, Anladım</button>`
+        }
       </div>
     </div>`;
   }).join('');
 }
 
-function openDoc(url, fileExt) {
-  if (fileExt === 'pdf') {
-    // PDF için tarayıcı görüntüleyici
-    window.open(url, '_blank');
-  } else {
-    // Word/Excel/PPT için Office Online görüntüleyici
-    const officeUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(url)}`;
-    window.open(officeUrl, '_blank');
-  }
-}
-
-// ── Confirm ────────────────────────────────
+// ── Confirm ────────────────────────────
 function openConfirm(id) {
   confirmId=id; checked=false;
   document.getElementById('chkBox').classList.remove('on');
+  document.getElementById('chkBox').textContent='';
   document.getElementById('confirmBtn').disabled=true;
   const d=docs.find(x=>x.id===id);
   document.getElementById('mExt').textContent=d.ext.toUpperCase();
@@ -1123,14 +840,15 @@ function toggleChk() {
 async function doConfirm() {
   const d=docs.find(x=>x.id===confirmId);
   const reader=d.readers.find(r=>r.email===me.email);
-  const readDate=now();
+  const readDate=nowStr();
 
-  // Flow 2 — Okuma kaydı gönder
+  // Flow 2 — Okuma kaydını SharePoint'e gönder
   if (CFG.FLOW_READ_URL !== "BURAYA_FLOW2_URL") {
     try {
       await fetch(CFG.FLOW_READ_URL, {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
           docId: String(d.id),
           docName: d.title,
           docUrl: d.spUrl,
@@ -1139,20 +857,20 @@ async function doConfirm() {
           readDate: new Date().toISOString(),
         })
       });
-    } catch(e) { console.error('Flow 2 hatası:', e); }
+    } catch(e) { console.error('Flow 2 hatası:',e); }
   }
 
   if (reader) { reader.read=true; reader.readDate=readDate; }
   closeOv();
   renderEmp();
   renderAdmin();
-  toast('✓ Onayınız kaydedildi ve yöneticinize bildirildi!','ok');
+  toast('✓ Onayınız kaydedildi! Yöneticinize bildirildi.','ok');
 }
 
 function closeOv() { document.getElementById('confirmOv').classList.remove('on'); }
 document.addEventListener('click', e=>{ if(e.target.classList.contains('ov')) closeOv(); });
 
-// ── Toast ──────────────────────────────────
+// ── Toast ──────────────────────────────
 function toast(msg, type='info') {
   const t=document.getElementById('toast');
   t.textContent=msg; t.className=`toast show ${type}`;
